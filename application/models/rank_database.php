@@ -15,7 +15,7 @@ class Rank_database extends CI_Model
         
         /*
          *  使用实例： 
-         *  一切采用用户手册的标砖，以下是获取已选择数据库的etc_project表里的所有字段 
+         *  一切采用用户手册的标准，以下是获取已选择数据库的etc_project表里的所有字段 
          *  $query = $this->db->get('etc_project');
          *  return $query->result_array();
          */
