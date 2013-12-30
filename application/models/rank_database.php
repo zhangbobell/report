@@ -10,8 +10,8 @@ class Rank_database extends CI_Model
     public function __construct() 
     {
         parent::__construct();
-        $etc_privileges = $this->select_DB('db_sanqiang');
-        $this->load->database($etc_privileges);
+        //$etc_privileges = $this->select_DB('db_sanqiang');
+       // $this->load->database($etc_privileges);
         
         /*
          *  使用实例： 
@@ -35,7 +35,7 @@ class Rank_database extends CI_Model
     *   Author : zhang bo
     *   Last modified : 2013.12.30
     */
-    private function select_DB($databaseName)
+    public function select_DB($databaseName)
     {
         $db_config['hostname'] = '192.168.1.90';
         $db_config['username'] = 'data';
