@@ -19,7 +19,7 @@
           $data['title'] = "追灿数据决策系统";
 
           $this->load->view('templates/header', $data);
-          $this->load->view('pages/'.$page, $data);
+          $this->load->view('main/'.$page, $data);
           $this->load->view('templates/footer', $data);
 
         }
