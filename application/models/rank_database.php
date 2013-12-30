@@ -10,7 +10,7 @@ class Rank_database extends CI_Model
     public function __construct() 
     {
         parent::__construct();
-        $etc_privileges = $this->select_DB('etc_privileges');
+        $etc_privileges = $this->select_DB('db_sanqiang');
         $this->load->database($etc_privileges);
         
         /*
@@ -21,7 +21,14 @@ class Rank_database extends CI_Model
          */
     }
     
-   /*
+    public function get_kpi_supplier_daily()
+    {
+        $query = $this->db->get('kpi_supplier_daily');
+        return $query->result_array();  
+    }
+
+
+    /*
     *   funtion selectDB: 通过传入数据库名，选择数据库 
     *   parameters : $databaseName -- 要选择的数据库名
     *   return : 数据库连接对象
