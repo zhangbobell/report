@@ -10,8 +10,6 @@ class Rank_database extends CI_Model
     public function __construct() 
     {
         parent::__construct();
-        //$etc_privileges = $this->select_DB('db_sanqiang');
-       // $this->load->database($etc_privileges);
         
         /*
          *  使用实例： 
