@@ -1,5 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+define('PUB_DIR','public');
 /*
 |--------------------------------------------------------------------------
 | File and Directory Modes
