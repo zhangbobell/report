@@ -7,6 +7,13 @@
  */
     Class Main extends CI_Controller
     {
+        function __construct() {
+            parent::__construct();
+            
+            $this->load->helper('captcha');
+        }
+
+
         public function index($page = 'index')
         {
 
@@ -15,10 +22,13 @@
             // 页面不存在
             show_404();
           }
-
+         /* {
+              $data['cap'] = "load captcha failed";
+          }*/
+                
+          
           $data['title'] = "追灿数据决策系统";
 
-          $this->load->view('templates/header', $data);
           $this->load->view('main/'.$page, $data);
           $this->load->view('templates/footer', $data);
 
