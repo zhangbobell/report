@@ -27,10 +27,11 @@
           }*/
           $vals = array(
               'word' => rand(1000, 10000),
-              'img_path' => './public/images/captcha/',
+              'img_path' => IMG_DIR.'/captcha/',
               'img_url' => 'http://localhost/report/public/images/captcha/',
               'img_width' => '100',
               'img_height' => '30',
+              'font_path' => PUB_DIR.'/fonts/ank.ttf'
                );
           
           $cap = create_captcha($vals);      
