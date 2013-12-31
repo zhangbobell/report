@@ -12,10 +12,9 @@
                 <label class="form-title">用户登录</label>
                 <p><input type="text" name="username" id="username" class="form-control" placeholder="用户名" autofocus="autofocus"/></p>
 		<p><input type="password" name="password" id="password" class="form-control" placeholder="密码"/></p>
+                <p><input type="text" name="captcha" id="captcha" class="form-control" placeholder="验证码"/></p>
+                <?php echo $cap['image']; ?>
 		<p><div id="login_info"></div>
 		<input type="submit" value="登  录" class="login-btn"/></p>
             </form>
-            <?php
-              echo $cap['image'];
-            ?>
         </div>
