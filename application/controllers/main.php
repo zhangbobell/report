@@ -25,8 +25,15 @@
          /* {
               $data['cap'] = "load captcha failed";
           }*/
-                
+          $vals = array(
+              'word' => rand(1000, 10000),
+              'img_path' => './public/images/captcha/',
+              'img_url' => 'http://localhost/report/public/images/captcha/'
+               );
           
+          $cap = create_captcha($vals);      
+          
+          $data['cap'] = $cap;
           $data['title'] = "追灿数据决策系统";
 
           $this->load->view('main/'.$page, $data);

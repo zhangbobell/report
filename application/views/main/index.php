@@ -16,14 +16,6 @@
 		<input type="submit" value="登  录" class="login-btn"/></p>
             </form>
             <?php
-            
-                $vals = array(
-              'word' => rand(1000, 10000),
-              'img_path' => './public/images/captcha/',
-              'img_url' => 'http://localhost/report/public/images/captcha/'
-               );
-          
-              $cap = create_captcha($vals);
               echo $cap['image'];
             ?>
         </div>
