@@ -30,7 +30,7 @@ createTime : 2013-12-30
 }
 .login-form{
     width: 300px;
-    height: 320px;
+    height: 340px;
     padding: 13px 14px 15px;
     margin-top: 130px;
     margin-left: auto;
@@ -42,12 +42,13 @@ createTime : 2013-12-30
     width:226px;
     height:36px;
     border:none;
-    margin:25px auto;
+    margin:15px auto;
     background-color: #3399ff;
     display: block;
     font-family: "黑体";
     font-size:15px;
     line-height: 36px;
+    color: #fff;
 }
 .login-btn:hover{
     background-color: #32c6f0;
@@ -70,13 +71,39 @@ createTime : 2013-12-30
     margin-left: auto;
     margin-right: auto;
     margin-top: 14px;
-}
-.captcha span{
     line-height: 30px;
-    color:#fff;
     font-size: 14px;
+    color: #fff;
+}
+#captcha-image img{
     vertical-align: middle;
 }
-.captcha image{
-    vertical-align: middle;
+
+#captcha-image{
+    display: inline;
+}
+
+#reload-captcha:link{
+    color: #fff;
+    text-decoration: none;    
+}
+#login_info{
+    background-color: #FF606C;
+    color:#000;
+    text-align:center;
+    width: 226px;
+    line-height:40px;
+    margin:15px auto;
+}
+.icon-sign-error{
+	display: inline-block;
+	vertical-align: -3px;
+	background-image:url(../images/signup-error.png);
+	background-position: -52px 0;
+	height:16px;
+	width:16px;
+	margin-right:8px;
+}
+#submit{
+    cursor: pointer;
 }
