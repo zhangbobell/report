@@ -25,6 +25,11 @@ define('IMG_DIR','public/images');
 define('JS_DIR','public/js');
 define('PUB_DIR','public');
 
+define('CSS_DIR','public/css');
+define('IMG_DIR','public/images');
+define('JS_DIR','public/js');
+define('PUB_DIR','public');
+
 /*
 |--------------------------------------------------------------------------
 | File Stream Modes
