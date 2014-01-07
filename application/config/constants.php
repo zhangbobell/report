@@ -1,7 +1,4 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-define('PUB_DIR','public');
-define('CSS_DIR','public/css');
-define('JS_DIR','public/js');
 /*
 |--------------------------------------------------------------------------
 | File and Directory Modes
@@ -19,11 +16,6 @@ define('FILE_READ_MODE', 0644);
 define('FILE_WRITE_MODE', 0666);
 define('DIR_READ_MODE', 0755);
 define('DIR_WRITE_MODE', 0777);
-
-define('CSS_DIR','public/css');
-define('IMG_DIR','public/images');
-define('JS_DIR','public/js');
-define('PUB_DIR','public');
 
 define('CSS_DIR','public/css');
 define('IMG_DIR','public/images');
