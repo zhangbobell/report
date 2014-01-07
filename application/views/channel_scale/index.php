@@ -3,21 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <title></title>
-<link rel="stylesheet" type="text/css" href="<?php echo PUB_DIR;?>/bootstrap/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo PUB_DIR;?>/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
-<script type="text/javascript" src="<?php echo PUB_DIR;?>/js/jquery.js"></script>
-<script type="text/javascript" src="<?php echo PUB_DIR;?>/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<?php echo PUB_DIR;?>/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
-<script type="text/javascript" src="<?php echo PUB_DIR;?>/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
 </head>
 <body>
-    <div style="width:200px" class="datetimepicker  date input-group" date-date-format="yyyy-mm-dd">
-        <input type="text" class="form-control span2" size="16" />
-        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+<h3>渠道规模</h3>
+选择项目，选择三枪/全部
+            <input type="text" id="start-date" name="start-date" class="datepicker" size="10" />
+到<input type="text" id="end-date" name="end-date" class="datepicker" size="10" />
+<button id="query">OK</button>
+<div class="box">
+    <div class="box-header">
+        授权分销商销售额
     </div>
-    <script type="text/javascript">
-        $(".datetimepicker").datetimepicker();
-    </script>
+    <div class="box-body">
+        <div id="order-sales-fee"></div>
+    </div>
+</div>
+
+
 </body>
 </html>

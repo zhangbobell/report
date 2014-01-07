@@ -51,7 +51,7 @@ $active_record = TRUE;
 $db['default']['hostname'] = '192.168.1.90';
 $db['default']['username'] = 'data';
 $db['default']['password'] = 'data2123';
-$db['default']['database'] = '';
+$db['default']['database'] = 'db_sanqiang';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
@@ -63,6 +63,22 @@ $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
+
+$db['etc_privileges']['hostname'] = 'ibm-think';
+$db['etc_privileges']['username'] = 'wangjing';
+$db['etc_privileges']['password'] = 'password';
+$db['etc_privileges']['database'] = 'etc_privileges';
+$db['etc_privileges']['dbdriver'] = 'mysql';
+$db['etc_privileges']['dbprefix'] = '';
+$db['etc_privileges']['pconnect'] = TRUE;
+$db['etc_privileges']['db_debug'] = TRUE;
+$db['etc_privileges']['cache_on'] = FALSE;
+$db['etc_privileges']['cachedir'] = '';
+$db['etc_privileges']['char_set'] = 'utf8';
+$db['etc_privileges']['dbcollat'] = 'utf8_general_ci';
+$db['etc_privileges']['swap_pre'] = '';
+$db['etc_privileges']['autoinit'] = TRUE;
+$db['etc_privileges']['stricton'] = FALSE;
 
 
 /* End of file database.php */

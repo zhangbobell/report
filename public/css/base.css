@@ -1,10 +1,4 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 2013-12-30, 14:06:24
-    Author     : ibm
-*/
-
+.box{border:1px solid #568EC5;width:33%;}
+.box-header{background:#E2EEFA;font-weight:bold;}
+.box-body{background:#F05033;color:#fff;min-height:200px;}
+.box-body div{font-size:4em;}
