@@ -24,7 +24,7 @@
             show_404();
           }
    
-          $data['title'] = "追灿数据决策系统";
+          $data['title'] = "用户登录";
 
           $this->load->view('main/'.$page, $data);
           $this->load->view('templates/footer', $data);
@@ -41,7 +41,7 @@
             $vals = array(
               'word' => rand(1000, 10000),
               'img_path' => IMG_DIR.'/captcha/',
-              'img_url' => 'http://localhost/report/public/images/captcha/',
+              'img_url' => IMG_DIR.'/captcha/',
               'img_width' => '100',
               'img_height' => '30',
               'font_path' => PUB_DIR.'/fonts/ank.ttf'
@@ -76,8 +76,8 @@
             $this->load->database($etc_privileges);
             
             $this->db->where('username', $this->input->post('username', TRUE));
-            $this->db->where('passwd', $this->input->post('password', TRUE));
-            $this->db->from('user');
+            $this->db->where('password', $this->input->post('password', TRUE));
+            $this->db->from('sys_user');
             echo $this->db->count_all_results();
         }
     }
