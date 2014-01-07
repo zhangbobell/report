@@ -7,25 +7,23 @@ $(document).ready(function(){
         changeYear:true,
         changeMonth:true,
         showOn:"both",
-        buttonImage:"public/jquery-ui/calendar.gif",
+        buttonImage:"../public/jquery-ui/calendar.gif",
         buttonImageOnly:true
     });
-    $("#query").on("click",p);
-    $("#end-date").datepicker({
-  
-    });
-    p();
+
+    alert($("#project").val());
+    
 });
 function p(){
         $.ajax({
             url:"channel_scale/get_data",
             type:"post",
             dateType:"json",
-            data:{"startDate":$("#start-date").val(),"endDate":$("#end-date").val()}
+            data:{"startDate":$("#start-date").val(),"endDate":$("#end-date").val(),"dbname":dbname}
         }).done(function(data){
             data=$.parseJSON(data);
             //if(!data){
-                $("#order-sales-fee").html(data.avg_seller_num);
+              //  $("#order-sales-fee").html(data.avg_seller_num);
            // }
         });
     }
