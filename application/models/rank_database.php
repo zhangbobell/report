@@ -42,7 +42,7 @@ class Rank_database extends CI_Model
         $db_config['username'] = 'root';
         $db_config['password'] = 'root';
         $db_config['database'] = $databaseName;
-        $db_config['dbdriver'] = 'mysql';
+        $db_config['dbdriver'] = 'mysqli';
         $db_config['dbprefix'] = '';
         $db_config['pconnect'] = TRUE;
         $db_config['db_debug'] = TRUE;
