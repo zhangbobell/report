@@ -1,9 +1,9 @@
 <?php
 
 /* 
- * File : project-add.php
+ * File : project-edit.php
  * Author : ibm   Email: zhangbobell@163.com
- * createTime : 2014-1-6
+ * createTime : 2014-1-7
  */
 ?>
 <div>您现在的位置：项目管理 >> <?php echo $title ?></div>
@@ -16,19 +16,20 @@
 <br />
 <label for="pid">项目编号 : </label><input name="pid" id="pid" type="text" size="12"/>
 <br />
-<label for="padmin">项目管理员：</label>
+<label for="puser">项目管理员：</label>
 <br />
-<select name="padmin[]" multiple="multiple" size="5">
+<select multiple="multiple" size="5" name="puser[]">
 <?php foreach ($user as $userLine): ?>
-<option id="padmin"  type="checkbox" value="<?php echo $userLine['userid'] ?>"><?php echo $userLine['username'] ?></option>
+<option id="puser" type="checkbox" value="<?php echo $userLine['userid'] ?>"><?php echo $userLine['username'] ?></option>
 <?php endforeach; ?>
 </select>
 <br />
-<label for="is_valid">项目状态：</label>
+<label for="is_valid">
 <label><input name="is_valid" type="radio" value="-1" />过期 </label> 
 <label><input name="is_valid" type="radio" value="0" checked="checked" />未知 </label> 
 <label><input name="is_valid" type="radio" value="1" />进行中 </label> 
 <br />
 <input name="submit" type="submit" value="增加" />
 </form>
+
 

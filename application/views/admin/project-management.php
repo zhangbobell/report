@@ -35,7 +35,7 @@
             {
                 echo '<td>'.$projectData.'</td>';
             }
-            echo '<td><a href="#" class="ico del">删除</a><a href="#" class="ico edit">编辑</a></td>';
+            echo '<td><a href="#" class="ico del">删除</a><a href="project_edit/'. $projectLine['id'] .'" class="ico edit">编辑</a></td>';
             echo '</tr>';
         }
     ?>

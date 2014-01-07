@@ -111,8 +111,64 @@ class Admin extends CI_Controller
         $etc_privileges = $this->rank_database->select_DB('etc_privileges');
         $this->load->database($etc_privileges);
 
-        $this->db->select('id,username');
-        $query = $this->db->get('sys_user');
+        $project = array(
+               'pid' => $this->input->post('pid', TRUE) ,
+               'projectname' => $this->input->post('project-name', TRUE) ,
+               'dbname' => $this->input->post('project-db', TRUE),
+               'is_valid' => $this->input->post('is_valid', TRUE)
+            );
+
+        if($this->db->insert('sys_project', $project))
+        {
+            $data['insertProjectResult'] = '增加项目成功';
+        }
+        else 
+        {
+            $data['insertProjectResult'] = '增加项目失败';
+        }
+        
+        $user = array();
+        foreach( $this->input->post('padmin', TRUE) as $uid)
+        {
+            $temp = array(
+              'uid' => $uid ,
+              'pid' => $this->input->post('pid', TRUE)
+            );
+            $user[] = $temp; 
+        }
+        if($this->db->insert_batch('rep_competence', $user))
+        {
+            $data['insertUserResult'] = '<br />增加管理员成功';
+        }
+        else 
+        {
+            $data['inserUserResult'] = '<br />增加管理员失败';
+        }
+                
+        $this->load->view('templates/header', $data);
+        $this->load->view('admin/header-add');
+        $this->load->view('templates/banner');
+        $this->load->view('templates/sidebar');
+        $this->load->view('admin/'.$page, $data);
+        $this->load->view('templates/footer');
+    }
+    
+    public function project_edit( $id )    
+    {
+        $page = 'project_edit';
+        if ( ! file_exists('application/views/admin/'.$page.'.php'))
+        {
+          show_404();
+        }
+        $data['title'] = "修改项目";
+        
+        $this->load->model('rank_database');
+        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+        $this->load->database($etc_privileges);
+
+        $this->db->select('pid,projectname,dbname,is_valid');
+        $this->db->where('id', $id); 
+        $query = $this->db->get('sys_project');
         foreach ($query->result_array() as $row)
         {
            $data['user'][] = $row;
