@@ -1,4 +1,139 @@
-.box{border:1px solid #568EC5;width:33%;}
-.box-header{background:#E2EEFA;font-weight:bold;}
-.box-body{background:#F05033;color:#fff;min-height:200px;}
-.box-body div{font-size:4em;}
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2013-12-30, 14:06:24
+    Author     : ibm
+*/
+.banner
+{
+    width: 100%;
+    height: 120px;
+    background-color: #32c6f0;
+    color: #fff;
+    text-align: center;
+    line-height: 120px;
+    font-size: 36px;
+    font-family: '黑体';
+    letter-spacing:0.1em;
+}
+.main-part
+{
+    width: 80%;
+    float: left;
+    background-color: #fff;
+    height: 1000px;;
+}
+.menu-title{
+	color:#32c6f0;
+}
+.sidebar ul{
+    margin-bottom: 40px;
+}
+.sidebar ul li{
+	height:36px;
+	line-height:36px;
+	font-size:18px;
+	font-family:"黑体", "宋体", "新宋体";
+	border-bottom-color:#3f3f3f;
+	border-bottom-style:solid;
+	border-bottom-width:1px;
+}
+.sidebar ul li a{
+	display:block;
+	text-decoration:none;
+	font-family:"宋体", "新宋体";
+	color:#fff;
+	font-weight:lighter;
+	padding-left:10px;
+}
+.sidebar ul li a:hover{
+	color:#32c6f0;
+	border-left-color:#ff9667;
+	border-left-width:3px;
+	border-left-style:solid;
+}
+.sidebar ul li:hover{
+	background-color:#3f3f3f;
+	color:#32c6f0;
+}
+.project-table
+{
+    margin-top: 10px;
+    margin-left: 10px;
+    color:#9d9c9a; 
+    font-size:14px;
+    border-collapse:collapse;
+}
+.project-table th
+{ 
+    background:#fffdfa url(../images/th.gif) repeat-x 0 0; 
+    color:#818181; 
+    text-align: left; 
+    padding:7px 10px; 
+    border-bottom:solid 1px #d2d1cb;
+}
+.project-table td
+{ 
+    background:#fbfcfc;  
+    border-bottom:solid 1px #e0e0e0; 
+    padding:8px 10px; 
+}
+.project-table tr.odd td{ 
+    background:#f8f8f8; 
+}
+.project-table tr:hover td
+{ 
+    background:#ccffff; 
+}
+.project-table a img 
+{ 
+    border:0; 
+}
+.project-table a 
+{ 
+    color:#ba4c32; 
+    text-decoration: underline; 
+    cursor:pointer; 
+}
+.project-table a:hover 
+{ 
+    color:#8d341f; 
+    text-decoration: none;
+}
+a.del 
+{ 
+    background-image:url(../images/del.gif)
+}
+a.edit 
+{ 
+    background-image:url(../images/edit.gif); 
+    margin-left:14px;
+}
+a.ico 
+{ 
+    color:#9d9c9a; 
+    font-size:12px; 
+    text-decoration: none; 
+    padding:0 0 0 14px; 
+    background-repeat:no-repeat; 
+    background-position:0 0; 
+}
+a.ico:hover 
+{ 
+    color:#333;
+}
+.add
+{
+   background-image:url(../images/add.png);  
+   margin-left:14px;
+   line-height: 12px;
+   font-size: 12px;
+   cursor: pointer;
+   margin-top: 20px;
+   margin-left: 10px;
+   display: block;
+}
+
