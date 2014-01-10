@@ -10,20 +10,47 @@ $(document).ready(function(){
         buttonImage:"../public/jquery-ui/calendar.gif",
         buttonImageOnly:true
     });
-
-    alert($("#project").val());
+    
+    $(".switch").bootstrapSwitch();
+    $("#query").on("click",query);
+    
+    
     
 });
-function p(){
+
+function query(){
+    project=$("#project").val();
+    operator=$("#operator").val();
+    startDate=$("#start-date").val();
+    endDate=$("#end-date").val();
+    if($("#zhuican-all").bootstrapSwitch("state")){
         $.ajax({
-            url:"channel_scale/get_data",
+            url:"order_sales_num_success_ex",
             type:"post",
+            async:false,
             dateType:"json",
-            data:{"startDate":$("#start-date").val(),"endDate":$("#end-date").val(),"dbname":dbname}
+            data:{"project":project,"operator":operator,"startDate":startDate,"endDate":endDate}
         }).done(function(data){
-            data=$.parseJSON(data);
-            //if(!data){
-              //  $("#order-sales-fee").html(data.avg_seller_num);
-           // }
+               //data=$.parseJSON(data);
+               //console.log(data);
+               //if(!data){
+                 //  $("#order-sales-fee").html(data.avg_seller_num);
+              // }
+        });
+    }else{
+        $.ajax({
+            url:"order_sales_num_success",
+            type:"post",
+            async:false,
+            dateType:"json",
+            data:{"project":project,"operator":operator,"startDate":startDate,"endDate":endDate}
+        }).done(function(data){
+               //data=$.parseJSON(data);
+               //console.log(data);
+               //if(!data){
+                 //  $("#order-sales-fee").html(data.avg_seller_num);
+              // }
         });
     }
+    
+}

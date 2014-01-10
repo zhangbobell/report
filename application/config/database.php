@@ -63,9 +63,42 @@ $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
+//三枪项目
+$db['db_sanqiang']['hostname'] = '127.0.0.1';
+$db['db_sanqiang']['username'] = 'webuser';
+$db['db_sanqiang']['password'] = 'password';
+$db['db_sanqiang']['database'] = 'db_sanqiang';
+$db['db_sanqiang']['dbdriver'] = 'mysql';
+$db['db_sanqiang']['dbprefix'] = '';
+$db['db_sanqiang']['pconnect'] = TRUE;
+$db['db_sanqiang']['db_debug'] = TRUE;
+$db['db_sanqiang']['cache_on'] = FALSE;
+$db['db_sanqiang']['cachedir'] = '';
+$db['db_sanqiang']['char_set'] = 'utf8';
+$db['db_sanqiang']['dbcollat'] = 'utf8_general_ci';
+$db['db_sanqiang']['swap_pre'] = '';
+$db['db_sanqiang']['autoinit'] = TRUE;
+$db['db_sanqiang']['stricton'] = FALSE;
 
-$db['etc_privileges']['hostname'] = 'ibm-think';
-$db['etc_privileges']['username'] = 'wangjing';
+//汤臣倍健项目
+$db['db_tcbj']['hostname'] = '127.0.0.1';
+$db['db_tcbj']['username'] = 'webuser';
+$db['db_tcbj']['password'] = 'password';
+$db['db_tcbj']['database'] = 'db_tcbj';
+$db['db_tcbj']['dbdriver'] = 'mysql';
+$db['db_tcbj']['dbprefix'] = '';
+$db['db_tcbj']['pconnect'] = TRUE;
+$db['db_tcbj']['db_debug'] = TRUE;
+$db['db_tcbj']['cache_on'] = FALSE;
+$db['db_tcbj']['cachedir'] = '';
+$db['db_tcbj']['char_set'] = 'utf8';
+$db['db_tcbj']['dbcollat'] = 'utf8_general_ci';
+$db['db_tcbj']['swap_pre'] = '';
+$db['db_tcbj']['autoinit'] = TRUE;
+$db['db_tcbj']['stricton'] = FALSE;
+
+$db['etc_privileges']['hostname'] = '127.0.0.1';
+$db['etc_privileges']['username'] = 'webuser';
 $db['etc_privileges']['password'] = 'password';
 $db['etc_privileges']['database'] = 'etc_privileges';
 $db['etc_privileges']['dbdriver'] = 'mysql';
