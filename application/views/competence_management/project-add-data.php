@@ -8,4 +8,5 @@
 echo $insertProjectResult;
 echo $insertUserResult;
 ?>
-<a href="project_management">返回项目管理页面</a>
+<br />
+<a href="project_management/">返回项目管理页面</a>

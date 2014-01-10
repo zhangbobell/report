@@ -52,6 +52,9 @@ createTime : 2013-12-30
 .login-btn:hover{
     background-color: #32c6f0;
 }
+.login-btn:active{
+    background-color: #0066ff;
+}
 .form-title{
     height: 40px;
     width: 100px;
@@ -105,4 +108,16 @@ createTime : 2013-12-30
 }
 #submit{
     cursor: pointer;
+}
+.logout-info
+{
+    width: 300px;
+    height: 340px;
+    padding: 13px 14px 15px;
+    margin-top: 130px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #fff;
+    font-size: 20px;
+    font-family: "微软雅黑","黑体";
 }

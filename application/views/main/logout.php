@@ -8,16 +8,14 @@
 <script src="<?php echo base_url().JS_DIR; ?>/jquery.js"  type="text/javascript" ></script>
 <script src="<?php echo base_url().JS_DIR; ?>/jquery.md5.js"  type="text/javascript" ></script>
 <script src="<?php echo base_url().JS_DIR; ?>/reload-and-validate.js"  type="text/javascript" ></script>
+<script type="text/javascript" >
+    window.setTimeout("window.location.href = '../'",1000);
+</script>
 </head>
     <body class="bg">
         <div class="content">
-            <form class="login-form" method="post" action="">
-                <label class="form-title">用户登录</label>
-                <p><input type="text" name="username" id="username" class="form-control" placeholder="用户名" autofocus="autofocus"/></p>
-		<p><input type="password" name="password" id="password" class="form-control" placeholder="密码"/></p>
-                <p><input type="text" name="captcha" id="captcha-input" class="form-control" placeholder="验证码" autocomplete="off" /></p>
-                <div class="captcha"><div id="captcha-image"></div> 看不清？<a id="reload-captcha" href="javascript:void(0);">换一张</a></div>
-		<p><div id="login_info"></div>
-		<input id="submit" type="submit" value="登  录" class="login-btn"/></p>
-            </form>
+            <div class="logout-info">
+                退出成功，正在跳转向登陆页面...
+                <br />如果浏览器没有反应，点击<a href="../">这里</a>
+            </div>
         </div>

@@ -13,18 +13,31 @@ and open the template in the editor.
     height: 120px;
     background-color: #32c6f0;
     color: #fff;
+    position: relative;
+}
+.system-title
+{
     text-align: center;
     line-height: 120px;
     font-size: 36px;
-    font-family: '黑体';
-    letter-spacing:0.1em;
+    font-family: '微软雅黑','黑体';
+    letter-spacing:0.1em; 
+}
+.login-info
+{
+    font-size: 14px;
+    font-family: '微软雅黑','黑体';
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 20px;
 }
 .main-part
 {
     width: 80%;
     float: left;
     background-color: #fff;
-    height: 1000px;;
+    height:1000px;
 }
 .menu-title{
 	color:#32c6f0;
@@ -136,4 +149,5 @@ a.ico:hover
    margin-left: 10px;
    display: block;
 }
+
 

@@ -2,7 +2,7 @@
     <div class="sidebar pct20 l wh tc">
 	<h2 class="lh48 menu-title">菜 单</h2>
 	<ul class="tl ml10 lstn">
-		<li class=""><a href="./">第一时间</a></li>
+            <li class=""><a href="<?php echo base_url().'admin/' ?>">第一时间</a></li>
 		<li class=" ml10">授权渠道</li>
                     <li class=" ml10"><a href="#">渠道规模</a></li>
                     <li class=" ml10"><a href="#">渠道质量</a></li>
@@ -25,9 +25,11 @@
                 <li class=" ml10">KPI查询</li>
                     <li class=" ml10"><a href="#">周度KPI及达成进度</a></li>
                     <li class=" ml10"><a href="#">月度KPI及达成进度</a></li>
+                <?php if($this->session->userdata['groupID'] === '0'): ?>
                 <li class=" ml10">系统权限管理</li>   
-                    <li class=" ml10"><a href="project_management">项目管理</a></li>
-                    <li class=" ml10"><a href="#">管理员管理</a></li>
+                    <li class=" ml10"><a href="<?php echo base_url().'competence_management/project_management/' ?>">项目管理</a></li>
+                    <li class=" ml10"><a href="<?php echo base_url().'competence_management/user_management/' ?>">用户管理</a></li>
+                <?php endif; ?>
 	</ul>
 </div>
     <div class="main-part"><!-- 标签将在footer中关闭，请勿提前关闭，以免造成错误。 -->
