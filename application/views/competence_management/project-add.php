@@ -20,7 +20,7 @@
 <br />
 <select name="padmin[]" multiple="multiple" size="5">
 <?php foreach ($user as $userLine): ?>
-<option id="padmin"  type="checkbox" value="<?php echo $userLine['userid'] ?>"><?php echo $userLine['username'] ?></option>
+<option id="padmin" value="<?php echo $userLine['userid'] ?>"><?php echo $userLine['username'] ?></option>
 <?php endforeach; ?>
 </select>
 <br />

@@ -37,28 +37,36 @@ $(document).ready(function(){
                 return false;
           }
           
+          $("#submit").val("正在登录...");
           //验证输入的验证码字段和用户名，密码
           $.ajax({
 	    url:'main/validate',
             type:'POST',
-            data:'captcha='+$('#captcha-input').val()+'username='+$('#username').val()+'&password='+$.md5($('#password').val()),
+            data:'captcha='+$('#captcha-input').val()+'&username='+$('#username').val()+'&password='+$.md5($('#password').val()),
             dataType:'json',
             success:function(json){
                 if(json === 0)
                 {
+                    $("#submit").val("登  录");
                     $("#login_info").html("<i class='icon-sign-error'></i>用户名密码不匹配");
                     get_captcha();
-                    $("#captcha-input").val('');
+                    $("#captcha-input").val('');   
                 }
                 else if(json === 2)
                 {
+                    $("#submit").val("登  录");
                     $("#login_info").html("<i class='icon-sign-error'></i>验证码输入不正确");
                     get_captcha();
                     $("#captcha-input").val('');
                     $("#captcha-input").focus();
                 }
+                else if(json === 1)
+                   window.location.href = 'admin/';
                 else
-                   $("#login_info").html("<i class='icon-sign-error'></i>用户名验证正确");            
+                {
+                    $("#submit").val("登  录");
+                   $("#login_info").html("<i class='icon-sign-error'></i>未知错误"); 
+                }
             }
 	  });
   });

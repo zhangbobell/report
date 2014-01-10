@@ -27,7 +27,7 @@
           $data['title'] = "用户登录";
 
           $this->load->view('main/'.$page, $data);
-          $this->load->view('templates/footer', $data);
+          $this->load->view('templates/login-footer', $data);
 
         }
         
@@ -75,10 +75,50 @@
             $etc_privileges = $this->rank_database->select_DB('etc_privileges');
             $this->load->database($etc_privileges);
             
-            $this->db->where('username', $this->input->post('username', TRUE));
-            $this->db->where('password', $this->input->post('password', TRUE));
-            $this->db->from('sys_user');
-            echo $this->db->count_all_results();
+            $sql = 'SELECT `userid`,`groupid` '
+                    . 'FROM `sys_user` '
+                    . 'WHERE `username` = \''. $this->input->post('username', TRUE) .'\' '
+                    . 'AND `password` = \''. $this->input->post('password', TRUE) .'\' ';
+            $query = $this->db->query($sql);
+            echo $query->num_rows();
+            
+            if($query->num_rows() === 1)
+            {
+                //删除验证码
+                $this->del_captcha();
+                $this->session->unset_userdata('captcha');
+                $this->session->unset_userdata('captcha_url');
+                
+                //设置session数据
+                $id = $query->result_array();
+                $sql = 'SELECT `sys_project`.`dbname` '
+                        . 'FROM `sys_project` '
+                        . 'LEFT JOIN `rep_competence` '
+                        . 'ON `rep_competence`.`pid` = `sys_project`.`pid` '
+                        . 'WHERE `rep_competence`.`uid` = \''. $id[0]['userid'] .'\' ';
+                $query = $this->db->query($sql);
+                foreach ($query->result_array() as $row )
+                {
+                    $authDB[] = $row['dbname'];
+                }
+                
+                $userdata = array(
+                   'username'  => $this->input->post('username', TRUE),
+                   'authDB'    => $authDB,
+                   'groupID'   => $id[0]['groupid'],
+                   'logged_in' => TRUE
+               );
+                $this->session->set_userdata($userdata);
+            }
+        }
+        
+        public function logout()
+        {
+            $page = 'logout';
+            $this->session->sess_destroy();
+            $data['title'] = '注销成功';
+            $this->load->view('main/'.$page, $data);
+            $this->load->view('templates/login-footer');
         }
     }
 
