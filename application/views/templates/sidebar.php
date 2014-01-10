@@ -4,7 +4,7 @@
 	<ul class="tl ml10 lstn">
             <li class=""><a href="<?php echo base_url().'admin/' ?>">第一时间</a></li>
 		<li class=" ml10">授权渠道</li>
-                    <li class=" ml10"><a href="#">渠道规模</a></li>
+                    <li class=" ml10"><a href="<?php echo base_url().'channel_auth/channel_scale/' ?>">渠道规模</a></li>
                     <li class=" ml10"><a href="#">渠道质量</a></li>
                     <li class=" ml10"><a href="#">趋势分析</a></li>
                 <li class=" ml10">非授权渠道</li>

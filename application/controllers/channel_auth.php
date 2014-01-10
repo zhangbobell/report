@@ -167,7 +167,10 @@ class Channel_auth extends CI_Controller{
     
     //生成“选择项目”的 <select>
     public function project_html(){
-        $this->load->database("etc_privileges");
+        $this->load->model('rank_database');
+        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+        $this->load->database($etc_privileges);
+        
         $sql='SELECT `projectname`,`dbname` FROM `sys_project` where `is_valid`="1"';
         $query=$this->db->query($sql);
         $data=$query->result_array();
@@ -180,7 +183,9 @@ class Channel_auth extends CI_Controller{
     }
     //生成“选择运营人员”的<select>
     public function operator_html(){
-        $this->load->database("etc_privileges");
+        $this->load->model('rank_database');
+        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+        $this->load->database($etc_privileges);
         $sql='SELECT `username` FROM sys_user where `is_valid`="1" AND `groupid`=1';
         $query=$this->db->query($sql);
         $data=$query->result_array();
