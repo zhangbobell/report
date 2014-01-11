@@ -7,7 +7,7 @@ $(document).ready(function(){
         changeYear:true,
         changeMonth:true,
         showOn:"both",
-        buttonImage:"../../public/jquery-ui/calendar.gif",
+        buttonImage:"public/jquery-ui/calendar.gif",
         buttonImageOnly:true
     });
     
@@ -25,7 +25,7 @@ function query(){
     endDate=$("#end-date").val();
     if($("#zhuican-all").bootstrapSwitch("state")){
         $.ajax({
-            url:"../order_sales_num_success_ex",
+            url:"channel_auth/order_sales_num_success_ex",
             type:"post",
             async:false,
             dateType:"json",
