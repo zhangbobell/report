@@ -12,9 +12,9 @@
                     <li class=" ml10"><a href="channel_noauth/rank_noauth/">非授权商家名单</a></li>
                 <li class=" ml10">业务分析</li>
                     <li class=" ml20">招 商</li>
-                        <li class=" ml20"><a href="recuit/recuit_effect">招商效果查询</a></li>
-                        <li class=" ml20"><a href="recuit/list_analysis">名单分析</a></li>
-                        <li class=" ml20"><a href="recuit/recuiter_effect">招商人员分析</a></li>
+                        <li class=" ml20"><a href="recruit/recruit_effect">招商效果查询</a></li>
+                        <li class=" ml20"><a href="recruit/list_analysis">名单分析</a></li>
+                        <li class=" ml20"><a href="recruit/recruiter_effect">招商人员分析</a></li>
                      <li class=" ml20">运 营</li>
                         <li class=" ml20"><a href="#">运营效果查询</a></li>
                         <li class=" ml20"><a href="#">名单查询</a></li>
