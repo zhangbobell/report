@@ -9,4 +9,39 @@ class Recruit extends CI_Controller{
         $query=$this->db->query($sql);
         var_dump($query->result());
     }
+    
+    //招商效果查询
+    public function recuit_effect(){
+
+        $data['title']='招商效果查询';
+        $this->load->view('templates/header',$data);
+        $this->load->view('channel_auth/header-add');
+        $this->load->view('templates/banner');
+        $this->load->view('templates/sidebar');
+        $this->load->view('channel_noauth/recuit_effect');
+        $this->load->view('templates/footer');
+}
+    //名单分析
+    public function list_analysis(){
+
+        $data['title']='名单分析';
+        $this->load->view('templates/header',$data);
+        $this->load->view('channel_auth/header-add');
+        $this->load->view('templates/banner');
+        $this->load->view('templates/sidebar');
+        $this->load->view('channel_noauth/list_analysis');
+        $this->load->view('templates/footer');
+}
+    //招商人员分析
+    public function recuiter_analysis(){
+
+        $data['title']='招商人员分析';
+        $this->load->view('templates/header',$data);
+        $this->load->view('channel_auth/header-add');
+        $this->load->view('templates/banner');
+        $this->load->view('templates/sidebar');
+        $this->load->view('channel_noauth/recuiter_analysis');
+        $this->load->view('templates/footer');
+
+}
 }

@@ -24,8 +24,8 @@ class channel_noauth extends CI_Controller{
         $this->load->view('templates/footer');
 }
     
-    //
-     public function rank_noauth(){
+    //非授权分销商名单
+    public function rank_noauth(){
 
         $data['title']='非授权商家名单';
         $this->load->view('templates/header',$data);
