@@ -18,7 +18,7 @@ class Recruit extends CI_Controller{
         $this->load->view('channel_auth/header-add');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
-        $this->load->view('channel_noauth/recuit_effect');
+        $this->load->view('recruit/recuit_effect');
         $this->load->view('templates/footer');
 }
     //名单分析
@@ -29,7 +29,7 @@ class Recruit extends CI_Controller{
         $this->load->view('channel_auth/header-add');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
-        $this->load->view('channel_noauth/list_analysis');
+        $this->load->view('recruit/list_analysis');
         $this->load->view('templates/footer');
 }
     //招商人员分析
@@ -40,7 +40,7 @@ class Recruit extends CI_Controller{
         $this->load->view('channel_auth/header-add');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
-        $this->load->view('channel_noauth/recuiter_analysis');
+        $this->load->view('crecruit/recuiter_analysis');
         $this->load->view('templates/footer');
 
 }
