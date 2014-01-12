@@ -14,7 +14,7 @@
                     <li class=" ml20">招 商</li>
                         <li class=" ml20"><a href="recruit/recruit_effect">招商效果查询</a></li>
                         <li class=" ml20"><a href="recruit/list_analysis">名单分析</a></li>
-                        <li class=" ml20"><a href="recruit/recruiter_effect">招商人员分析</a></li>
+                        <li class=" ml20"><a href="recruit/recruiter_analysis">招商人员分析</a></li>
                      <li class=" ml20">运 营</li>
                         <li class=" ml20"><a href="#">运营效果查询</a></li>
                         <li class=" ml20"><a href="#">名单查询</a></li>
