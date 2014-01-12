@@ -9,4 +9,4 @@ echo $deleteUserResult;
 echo $deleteProjectResult;
 ?>
 <br />
-<a href="../user_management/">返回用户管理页面</a>
+<a href="competence_management/user_management/">返回用户管理页面</a>

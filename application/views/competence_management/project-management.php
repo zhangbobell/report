@@ -6,7 +6,7 @@
  * createTime : 2014-1-6
  */
 ?>
-<a class="ico add" href="../project_add">增加项目</a>
+<a class="ico add" href="competence_management/project_add">增加项目</a>
 <table class="project-table">
     <tr>
         <th>序  号</th>
@@ -36,7 +36,7 @@
             {
                 echo '<td>'.$projectData.'</td>';
             }
-            echo '<td><a href="../project_delete/'. $projectLine['id'] .'" class="ico del">删除</a><a href="../project_edit/'. $projectLine['id'] .'" class="ico edit">编辑</a></td>';
+            echo '<td><a href="competence_management/project_delete/'. $projectLine['id'] .'" class="ico del">删除</a><a href="competence_management/project_edit/'. $projectLine['id'] .'" class="ico edit">编辑</a></td>';
             echo '</tr>';
         }
     ?>

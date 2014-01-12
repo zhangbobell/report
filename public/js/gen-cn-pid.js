@@ -7,7 +7,7 @@
 $(document).ready(function(){
   $("#gen-cn-pid").click(function(){
   htmlobj=$.ajax({
-	 url:'gen_cn_pid',
+	 url:'competence_management/gen_cn_pid',
          type:'POST',
          data:"projectName="+$("#project-name").val(),
          dataType:'json',

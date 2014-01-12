@@ -8,7 +8,7 @@
 ?>
 <div>您现在的位置：项目管理 >> <?php echo $title ?></div>
 <br />
-<form action="project_add_data" method="post" target="_self">
+<form action="competence_management/project_add_data" method="post" target="_self">
 <label for="project-name">项目名称 : </label><input name="project-name" id="project-name" type="text"/>
 &nbsp;&nbsp;<input id="gen-cn-pid" type="button" value="生成数据库名和编号"/>
 <br />

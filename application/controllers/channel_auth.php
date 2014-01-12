@@ -13,6 +13,33 @@ class Channel_auth extends CI_Controller{
         $this->load->view('templates/footer');
     }
     
+    //渠道质量
+    public function channel_quality(){
+        $data['project']=$this->project_html();
+        $data['operator']=$this->operator_html();
+        $data['title']='渠道质量';
+        $this->load->view('templates/header',$data);
+        $this->load->view('channel_auth/header-add');
+        $this->load->view('templates/banner');
+        $this->load->view('templates/sidebar');
+        $this->load->view('channel_auth/channel_quality');
+        $this->load->view('templates/footer');
+    }
+    
+    //趋势分析
+     public function trend_analysis(){
+        $data['project']=$this->project_html();
+        $data['operator']=$this->operator_html();
+        $data['title']='趋势分析';
+        $this->load->view('templates/header',$data);
+        $this->load->view('channel_auth/header-add');
+        $this->load->view('templates/banner');
+        $this->load->view('templates/sidebar');
+        $this->load->view('channel_auth/trend_analysis');
+        $this->load->view('templates/footer');
+    }
+    
+    
     #全部分销商 销售额
     public function order_sales_fee_success(){
         $project=$_POST['project'];

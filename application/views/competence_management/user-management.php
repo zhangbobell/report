@@ -6,7 +6,7 @@
  * createTime : 2014-1-8
  */
 ?>
-<a class="ico add" href="../user_add">增加用户</a>
+<a class="ico add" href="competence_management/user_add">增加用户</a>
 <table class="project-table">
     <tr>
         <th>用户编号</th>
@@ -34,7 +34,7 @@
             {
                 echo '<td>'.$userData.'</td>';
             }
-            echo '<td><a href="../user_delete/'. $userLine['userid'] .'" class="ico del">删除</a><a href="../user_edit/'. $userLine['userid'] .'" class="ico edit">编辑</a></td>';
+            echo '<td><a href="competence_management/user_delete/'. $userLine['userid'] .'" class="ico del">删除</a><a href="competence_management/user_edit/'. $userLine['userid'] .'" class="ico edit">编辑</a></td>';
             echo '</tr>';
         }
     ?>

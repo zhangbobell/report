@@ -8,7 +8,7 @@
 ?>
 <div>您现在的位置：用户管理 >> <?php echo $title ?></div>
 <br />
-<form action="user_add_data" method="post" target="_self">
+<form action="competence_management/user_add_data" method="post" target="_self">
 <label for="username">用户名 : </label><input name="username" id="username" type="text"/>
 <br />
 <label for="password">密码 : </label><input name="password" id="password" type="text"/>

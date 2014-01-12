@@ -9,5 +9,5 @@ echo $deleteProjectResult;
 echo $deleteUserResult;
 ?>
 <br />
-<a href="../project_management/">返回项目管理页面</a>
+<a href="competence_management/project_management/">返回项目管理页面</a>
 
