@@ -11,14 +11,14 @@ class Recruit extends CI_Controller{
     }
     
     //招商效果查询
-    public function recuit_effect(){
+    public function recruit_effect(){
 
         $data['title']='招商效果查询';
         $this->load->view('templates/header',$data);
         $this->load->view('channel_auth/header-add');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
-        $this->load->view('recruit/recuit_effect');
+        $this->load->view('recruit/recruit_effect');
         $this->load->view('templates/footer');
 }
     //名单分析
@@ -33,14 +33,14 @@ class Recruit extends CI_Controller{
         $this->load->view('templates/footer');
 }
     //招商人员分析
-    public function recuiter_analysis(){
+    public function recruiter_analysis(){
 
         $data['title']='招商人员分析';
         $this->load->view('templates/header',$data);
         $this->load->view('channel_auth/header-add');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
-        $this->load->view('crecruit/recuiter_analysis');
+        $this->load->view('recruit/recruiter_analysis');
         $this->load->view('templates/footer');
 
 }
