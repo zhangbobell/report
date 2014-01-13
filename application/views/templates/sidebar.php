@@ -16,20 +16,21 @@
                         <li class=" ml20"><a href="recruit/list_analysis">名单分析</a></li>
                         <li class=" ml20"><a href="recruit/recruiter_analysis">招商人员分析</a></li>
                      <li class=" ml20">运 营</li>
-                        <li class=" ml20"><a href="#">运营效果查询</a></li>
-                        <li class=" ml20"><a href="#">名单查询</a></li>
+                        <li class=" ml20"><a href="operation/operation_effect">运营效果查询</a></li>
+                        <li class=" ml20"><a href="operation/list_query">名单查询</a></li>
+                        <li class=" ml20"><a href="operation/seller_search">搜索</a></li>
                 <li class=" ml10">榜单</li>
-                    <li class=" ml10"><a href="#">分销商销量增长率排行</a></li>
-                    <li class=" ml10"><a href="#">分销商销量排行</a></li>
-                    <li class=" ml10"><a href="#">产品销量增长率排行</a></li>
-                    <li class=" ml10"><a href="#">产品销量排行</a></li>
+                    <li class=" ml10"><a href="rank_list/sales_rate_rank/">分销商销量增长率排行</a></li>
+                    <li class=" ml10"><a href="rank_list/sales_rank/">分销商销量排行</a></li>
+                    <li class=" ml10"><a href="rank_list/product_sales_rate_rank/">产品销量增长率排行</a></li>
+                    <li class=" ml10"><a href="rank_list/product_sales_rank/">产品销量排行</a></li>
                 <li class=" ml10">KPI查询</li>
-                    <li class=" ml10"><a href="#">周度KPI及达成进度</a></li>
-                    <li class=" ml10"><a href="#">月度KPI及达成进度</a></li>
+                    <li class=" ml10"><a href="kpi/kpi_weekly">周度KPI及达成进度</a></li>
+                    <li class=" ml10"><a href="kpi/kpi_monthly">月度KPI及达成进度</a></li>
                 <?php if($this->session->userdata['groupID'] === '0'): ?>
                 <li class=" ml10">系统权限管理</li>   
-                    <li class=" ml10"><a href="<?php echo base_url().'competence_management/project_management/' ?>">项目管理</a></li>
-                    <li class=" ml10"><a href="<?php echo base_url().'competence_management/user_management/' ?>">用户管理</a></li>
+                    <li class=" ml10"><a href="competence_management/project_management/">项目管理</a></li>
+                    <li class=" ml10"><a href="competence_management/user_management/">用户管理</a></li>
                 <?php endif; ?>
 	</ul>
 </div>
