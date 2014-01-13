@@ -35,9 +35,9 @@ class Rank_database extends CI_Model
     */
     public function select_DB($databaseName)
     {
-        $db_config['hostname'] = 'ibm-think';
-        $db_config['username'] = 'root';
-        $db_config['password'] = 'root';
+        $db_config['hostname'] = '127.0.0.1';
+        $db_config['username'] = 'webuser';
+        $db_config['password'] = 'password';
         $db_config['database'] = $databaseName;
         $db_config['dbdriver'] = 'mysqli';
         $db_config['dbprefix'] = '';

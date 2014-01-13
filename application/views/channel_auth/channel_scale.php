@@ -12,15 +12,15 @@
     <div class="num-b">
         <div class="l-num-title">授权分销商销售额</div>
         <div class="l-num-title">授权分销商销量</div>
-        <div class="l-num curr">12345</div>
-        <div class="l-num curr">7780</div>
+        <div class="l-num curr" id="order_sales_fee_success">12345</div>
+        <div class="l-num curr" id="order_sales_num_success">7780</div>
         <div class="fix"></div>
     </div>
     <div class="num-b">
         <div class="l-num-title">授权分销商数量</div>
         <div class="l-num-title">在架授权分销商数量</div>
-        <div class="l-num curr">12345</div>
-        <div class="l-num curr">7780</div>
+        <div class="l-num curr" id="seller_num">12345</div>
+        <div class="l-num curr" id="up_seller_num">7780</div>
         <div class="fix"></div>
     </div>
     <div class="fix"></div>

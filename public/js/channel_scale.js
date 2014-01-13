@@ -23,34 +23,22 @@ function query(){
     operator=$("#operator").val();
     startDate=$("#start-date").val();
     endDate=$("#end-date").val();
-    if($("#zhuican-all").bootstrapSwitch("state")){
-        $.ajax({
-            url:"channel_auth/order_sales_num_success_ex",
-            type:"post",
-            async:false,
-            dateType:"json",
-            data:{"project":project,"operator":operator,"startDate":startDate,"endDate":endDate}
-        }).done(function(data){
-               //data=$.parseJSON(data);
-               //console.log(data);
-               //if(!data){
-                 //  $("#order-sales-fee").html(data.avg_seller_num);
-              // }
-        });
-    }else{
-        $.ajax({
-            url:"order_sales_num_success",
-            type:"post",
-            async:false,
-            dateType:"json",
-            data:{"project":project,"operator":operator,"startDate":startDate,"endDate":endDate}
-        }).done(function(data){
-               //data=$.parseJSON(data);
-               //console.log(data);
-               //if(!data){
-                 //  $("#order-sales-fee").html(data.avg_seller_num);
-              // }
-        });
-    }
+    zhuicanAll=$("#zhuican-all").bootstrapSwitch("state")?"zhuican":"all";
     
+    $.ajax({
+        url:"channel_auth/get_data",
+        type:"post",
+        async:false,
+        dateType:"json",
+        data:{"project":project,"operator":operator,"startDate":startDate,"endDate":endDate,"zhuicanAll":zhuicanAll}
+    }).done(function(data){
+           data=$.parseJSON(data);
+           for(key in data){
+               data[key]=Number(data[key]);
+           }
+           $("#order_sales_fee_success").html(data.order_sales_fee_success);
+           $("#order_sales_num_success").html(data.order_sales_num_success);
+           $("#seller_num").html(data.seller_num);
+           $("#up_seller_num").html(data.up_seller_num);
+    });
 }
