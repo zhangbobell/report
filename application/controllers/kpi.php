@@ -4,7 +4,14 @@ class Kpi extends CI_Controller{
          $this->load->database('mysqli://data:data2123@192.168.1.90/db_sanqiang');
         $sql='select(select count(*) from meta_cooperation where createtime>date_sub(curdate(),interval 30 day) and sales>0 and cast(cast(status as char)as signed integer)>0)/(select count(*) from meta_cooperation where createtime>date_sub(curdate(),interval 30 day) and cast(cast(status as char)as signed integer)>0) as p from meta_cooperation limit 1';
         $query=$this->db->query($sql);
-        var_dump($query->result());
+        
+        $data['title']='周度KPI';
+        $this->load->view('templates/header',$data);
+        $this->load->view('channel_auth/header-add');
+        $this->load->view('templates/banner');
+        $this->load->view('templates/sidebar');
+        $this->load->view('kpi/kpi_weekly');
+        $this->load->view('templates/footer');
     }
     
     public function kpi_monthly(){
@@ -20,9 +27,16 @@ class Kpi extends CI_Controller{
      
         $sql='select count(sellernick) as recruit_success_num from status_recruit_log'
                 . ' where status="2" AND updatetime between "'.$startDate.'" AND "'.$endDate.'"';
-        echo $sql;
         $query=$this->db->query($sql);
         $data['recruit_success_num']=$query->row()->recruit_success_num;
-           var_dump($data);
+        
+        $data['title']='月度KPI';
+        $this->load->view('templates/header',$data);
+        $this->load->view('channel_auth/header-add');
+        $this->load->view('templates/banner');
+        $this->load->view('templates/sidebar');
+        $this->load->view('kpi/kpi_monthly');
+        $this->load->view('templates/footer');
+        
     }
 }

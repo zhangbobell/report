@@ -5,7 +5,7 @@ if(!array_key_exists('logged_in', $this->session->all_userdata()))
     echo "该页面需要登录";
     echo "<br />正在跳转到登录页面...";
     
-    $returnPage = '../';
+    $returnPage = base_url();
     echo "<br />如果浏览器没有反应，请点击<a href=\"". $returnPage ."\">这里</a>.";
     echo "<script type='text/javascript'>";  
     echo "window.setTimeout(\"window.location='". $returnPage ."'\",1000); ";  

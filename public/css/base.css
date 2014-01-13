@@ -215,5 +215,63 @@ a.ico:hover
 {
     color: #D0D0D0;
 }
-
+.cat-title-op
+{
+    width: 100%;
+    background-color: #f6f6f6;
+}
+.activated
+{
+    background-color: #b2b2b2;
+}
+.unactivated
+{
+    background-color: #32c6f0;
+}
+.op-list
+{
+    height: 35px;
+    width: 250px;
+    display: block;
+    float: left;
+    text-align: center;
+    color: #fff;
+    font-size: 18px;
+    line-height: 35px;
+    font-family: "microsoft yahei","黑体";
+}
+.cat-title-op a:link
+{
+    text-decoration: none; 
+}
+.cat-title-op a.unactivated:hover
+{
+    color: #fff;
+    background-color: #2abae3;
+}
+.cat-title-op a.activated:hover
+{
+    color: #fff;
+}
+.search-input
+{
+    width: 300px;
+    height: 30px;
+    margin-top: 20px;
+    margin-left: 30px;
+    padding: 3px 8px;
+    font-family: "microsoft yahei","黑体";
+    font-size:16px;
+}
+.search-submit
+{
+    margin-left: 10px;
+    padding:3px;
+    height: 30px;
+}
+.search-result
+{
+    margin-top: 20px;
+    margin-left: 30px;  
+}
 
