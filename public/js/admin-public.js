@@ -13,8 +13,6 @@ $(document).ready(function(){
 	{
 		if((window.location.href).indexOf($("ul li a")[i].href)>=0)
                 {
-                        console.log(i+"th href : "+($("ul li a")[i].href));
-                        console.log(window.location.href);
 			$("ul li a")[i].style.backgroundColor="#303030";
                         isIndex = false;
                 }           
@@ -22,9 +20,6 @@ $(document).ready(function(){
         
         if(isIndex && ((window.location.href) === ($("ul li a")[0].href)) )
         {
-            console.log(isIndex);
-            console.log(window.location.href);
-            console.log(($("ul li a")[0].href));
             $("ul li a")[0].style.backgroundColor="#303030";
         }
 });

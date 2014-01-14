@@ -72,7 +72,8 @@
 
             //验证用户名密码
             $this->load->model('rank_database');
-            $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+            //现在使用的是90数据库里面的test库作为etc_privileges的测试库
+            $etc_privileges = $this->rank_database->select_DB('test');
             $this->load->database($etc_privileges);
             
             $sql = 'SELECT `userid`,`groupid` '
@@ -91,7 +92,7 @@
                 
                 //设置session数据
                 $id = $query->result_array();
-                $sql = 'SELECT `sys_project`.`dbname` '
+                $sql = 'SELECT `sys_project`.`projectname`, `sys_project`.`dbname` '
                         . 'FROM `sys_project` '
                         . 'LEFT JOIN `rep_competence` '
                         . 'ON `rep_competence`.`pid` = `sys_project`.`pid` '
@@ -99,7 +100,7 @@
                 $query = $this->db->query($sql);
                 foreach ($query->result_array() as $row )
                 {
-                    $authDB[] = $row['dbname'];
+                    $authDB[$row['dbname']] = $row['projectname'];
                 }
                 
                 $userdata = array(

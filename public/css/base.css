@@ -274,4 +274,29 @@ a.ico:hover
     margin-top: 20px;
     margin-left: 30px;  
 }
+.time-span
+{
+    width: 80px;
+    height: 28px;
+    border: 1px #CCC solid;
+    padding: 2px;
+    margin: 3px;
+    float: left;
+    text-align: center;
+    cursor: pointer;
+}
+.time-span:hover
+{
+    background-color: #ccc;
+}
+.mt20 .has-switch
+{
+    float: left;
+}
+#db-select
+{
+    height: 24px;
+    line-height: 24px;
+    margin-left: 10px;
+}
 
