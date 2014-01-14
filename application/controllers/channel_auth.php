@@ -76,6 +76,7 @@ class Channel_auth extends CI_Controller{
         $sql="select COUNT(temp_2.sellernick) AS up_seller_num  from(  SELECT updatetime,sellernick,number up_number,if(updatetime<curdate(),'0','1') is_up  from(  select sellernick,number,updatetime  from(  select sellernick,count(itemid) as number,max(updatetime) as updatetime  from meta_item  where updatetime >= curdate() AND sellernick is not null and is_auth_item='1'  UNION  select sellernick,number,updatetime  from(  select sellernick,sales_product as number,updatetime  from up_cooperation   where updatetime >= curdate() and sales_product>0  order by updatetime desc  ) as temp  group by sellernick  )as temp_0  where number > 0  order by updatetime desc  ) as temp_1  group by sellernick  ) as temp_2   left join meta_cooperation  on temp_2.sellernick=meta_cooperation.sellernick  where temp_2.updatetime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'");
         $query=$this->db->query($sql);
         $data['up_seller_num']=$query->row()->up_seller_num;
+        
         echo json_encode($data);
         }elseif($zhuicanAll=='zhuican'){
          //授权分销商的销售额（追灿）
@@ -126,16 +127,16 @@ class Channel_auth extends CI_Controller{
         $query=$this->db->query($sql);
         $data=$query->result_array();
         $html='<select id="operator">';
+        $html .='<option value="all">全部</option>';
         foreach($data as $value){
             $html .='<option value="'.$value['username'].'">'.$value['username'].'</option>'; 
-        }
-        $html .='<option value="all">全部</option>';
+        } 
         $html .='</select>';
         return $html;
     }
     
-    /*------------------------渠道质量--------------------------------------------------*/
-    public function data_chaannel_quality(){
+    /*======================渠道质量==========================================*/
+    public function data_channel_quality(){
         //获取AJAX发送来的数据
         $project=$_POST['project'];
         $operator=$_POST['operator'];
@@ -155,9 +156,50 @@ class Channel_auth extends CI_Controller{
         preg_match_all('/%([^%]*)%/',$etc_rule,$arr);
         $etc_rule=implode('|',$arr[1]);
         if($zhuicanAll=='all'){
-            
+        //上架率（全部）
+        $sql="select (select COUNT(temp_2.sellernick) AS up_seller_num  from(  SELECT updatetime,sellernick,number up_number,if(updatetime<curdate(),'0','1') is_up  from(  select sellernick,number,updatetime  from(  select sellernick,count(itemid) as number,max(updatetime) as updatetime  from meta_item  where updatetime >= curdate() AND sellernick is not null and is_auth_item='1'  UNION  select sellernick,number,updatetime  from(  select sellernick,sales_product as number,updatetime  from up_cooperation   where updatetime >= curdate() and sales_product>0  order by updatetime desc  ) as temp  group by sellernick  )as temp_0  where number > 0  order by updatetime desc  ) as temp_1  group by sellernick  ) as temp_2   left join meta_cooperation  on temp_2.sellernick=meta_cooperation.sellernick  where temp_2.updatetime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'").")/(SELECT   COUNT(sellernick) AS seller_num FROM meta_cooperation WHERE status>'0' AND startdate < '$endDate' ".($operator=='all'?'':" AND account='$operator'").") AS up_seller_rate";
+        $query=$this->db->query($sql);
+        $data['up_seller_rate']=$query->row()->up_seller_rate;
+        //乱价率（全部）
+        $sql="select (select count(sellernick) from status_price_log where status='1'  and updatetime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'").")/(SELECT   COUNT(sellernick) AS seller_num FROM meta_cooperation WHERE status>'0' AND startdate < '$endDate' ".($operator=='all'?'':" AND account='$operator'").") AS arbitrary_price_rate";
+        $query=$this->db->query($sql);
+        $data['arbitrary_price_rate']=$query->row()->arbitrary_price_rate;
+        //动销率（全部）
+         $sql="select(select count(distinct meta_order.sellernick)   from meta_order   inner join meta_cooperation   on meta_order.sellernick=meta_cooperation.sellernick   where meta_order.status not regexp '$etc_rule' AND meta_order.number >0 and meta_order.createtime between '$startDate' AND '$endDate'  ".($operator=='all'?'':" AND meta_cooperation.account='$operator'").")/(SELECT   COUNT(sellernick) AS seller_num FROM meta_cooperation WHERE status>'0' AND startdate < '$endDate' ".($operator=='all'?'':" AND account='$operator'").") AS dynamic_sales_rate";
+        $query=$this->db->query($sql);
+        $data['dynamic_sales_rate']=$query->row()->dynamic_sales_rate; 
+        //订单关闭比率(全部)
+        $sql="select (select count(distinct meta_order.oid) from meta_order inner join meta_cooperation on meta_order.sellernick=meta_cooperation.sellernick where meta_order.number>0 AND meta_order.`status`  regexp '关闭' and meta_order.createtime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'").")/(select count(distinct  meta_order.oid) from meta_order inner join meta_cooperation on meta_order.sellernick=meta_cooperation.sellernick where meta_order.number>0 and meta_order.createtime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'").") AS order_failed_rate";
+        $query=$this->db->query($sql);
+        $data['order_failed_rate']=$query->row()->order_failed_rate;
+        #平均在架商品数(全部)
+        $sql="select avg(temp_2.up_number) AS up_item_num  from(  SELECT updatetime,sellernick,number up_number,if(updatetime<curdate(),'0','1') is_up  from(  select sellernick,number,updatetime  from(  select sellernick,count(itemid) as number,max(updatetime) as updatetime  from meta_item  where updatetime >= curdate() AND sellernick is not null and is_auth_item='1'  UNION  select sellernick,number,updatetime  from(  select sellernick,sales_product as number,updatetime  from up_cooperation   where updatetime >= curdate() and sales_product>0  order by updatetime desc  ) as temp  group by sellernick  )as temp_0  where number > 0  order by updatetime desc  ) as temp_1  group by sellernick  ) as temp_2   left join meta_cooperation  on temp_2.sellernick=meta_cooperation.sellernick  where temp_2.updatetime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'");
+        $query=$this->db->query($sql);
+        $data['up_item_num']=$query->row()->up_item_num;
+        echo $sql;
+        echo json_encode($data);
         }elseif($zhuicanAll='zhuican'){
-            
+            //上架率（追灿）
+            $sql="select (select count(temp4.sellernick)  as up_seller_num from(  SELECT updatetime,sellernick,number  up_number,if(updatetime<curdate(),'0','1')  is_up  from(  select sellernick,number,updatetime  from(  select sellernick,count(itemid) as number,max(updatetime) as updatetime  from meta_item  where updatetime >= curdate() AND sellernick is not null and is_auth_item='1'  UNION  select sellernick,number,updatetime  from(  select sellernick,sales_product as number,updatetime  from up_cooperation   where updatetime >= curdate() and sales_product>0  order by updatetime desc  ) as temp  group by sellernick  )as temp2  where number > 0  order by updatetime desc  ) as temp3  group by sellernick  ) as temp4   left join meta_cooperation  on temp4.sellernick=meta_cooperation.sellernick  left join up_cooperation_register  on temp4.sellernick=up_cooperation_register.sellernick  where up_cooperation_register.sellernick is null AND temp4.updatetime between '$startDate' AND '$endDate'  ".($operator=='all'?'':" AND meta_cooperation.account='$operator'").")/("."SELECT COUNT(meta_cooperation.sellernick)AS seller_num  FROM meta_cooperation LEFT JOIN up_cooperation_register ON meta_cooperation.sellernick= up_cooperation_register.sellernick WHERE status>'0'   AND up_cooperation_register.sellernick IS NULL AND meta_cooperation.startdate < '$endDate'   ".($operator=='all'?'':" AND account='$operator'").") AS up_seller_rate";
+            $query=$this->db->query($sql);
+            $data['up_seller_rate']=$query->row()->up_seller_rate;
+            //乱价率（追灿）
+             $sql="select (select count(status_price_log.sellernick) from status_price_log left join up_cooperation_register on status_price_log.sellernick=up_cooperation_register.sellernick where up_cooperation_register.sellernick is null and status_price_log.status='1'  and status_price_log.updatetime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'").")/(SELECT COUNT(meta_cooperation.sellernick)AS seller_num  FROM meta_cooperation LEFT JOIN up_cooperation_register ON meta_cooperation.sellernick= up_cooperation_register.sellernick WHERE status>'0'   AND up_cooperation_register.sellernick IS NULL AND meta_cooperation.startdate < '$endDate' ".($operator=='all'?'':" AND account='$operator'").") AS arbitrary_price_rate";
+             $query=$this->db->query($sql);
+             $data['arbitrary_price_rate']=$query->row()->arbitrary_price_rate;
+             //动销率（追灿）
+             $sql="select (select count(distinct meta_order.sellernick)   from meta_order   inner join meta_cooperation    on meta_order.sellernick=meta_cooperation.sellernick   left join up_cooperation_register   on meta_order.sellernick=up_cooperation_register.sellernick   where up_cooperation_register.sellernick is null and meta_order.status not regexp '$etc_rule'  AND meta_order.number >0 and meta_order.createtime between '$startDate' AND '$endDate'  ".($operator=='all'?'':" AND meta_cooperation.account='$operator'").")/("."SELECT COUNT(meta_cooperation.sellernick)AS seller_num  FROM meta_cooperation LEFT JOIN up_cooperation_register ON meta_cooperation.sellernick= up_cooperation_register.sellernick WHERE status>'0'   AND up_cooperation_register.sellernick IS NULL AND meta_cooperation.startdate < '$endDate'   ".($operator=='all'?'':" AND account='$operator'").") AS dynamic_sales_rate";
+             $query=$this->db->query($sql);
+             $data['dynamic_sales_rate']=$query->row()->dynamic_sales_rate; 
+             //订单关闭比率（追灿）
+             $sql="select (select count(distinct meta_order.oid) from meta_order inner join meta_cooperation on meta_order.sellernick=meta_cooperation.sellernick left join up_cooperation_register on meta_order.sellernick=up_cooperation_register.sellernick where up_cooperation_register.sellernick is null and  meta_order.number>0 AND meta_order.`status`  regexp '退款|未支付|关闭|等待付款' and meta_order.createtime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'").")/(select count(distinct  meta_order.oid) from meta_order inner join meta_cooperation on meta_order.sellernick=meta_cooperation.sellernick left join up_cooperation_register on meta_order.sellernick=up_cooperation_register.sellernick where up_cooperation_register.sellernick is null and  meta_order.number>0 and meta_order.createtime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'").") AS order_failed_rate";
+             $query=$this->db->query($sql);
+             $data['order_failed_rate']=$query->row()->order_failed_rate;
+             //平均在架商品数（追灿）
+             $sql="select avg(up_number) AS up_item_num from(  SELECT updatetime,sellernick,number up_number,if(updatetime<curdate(),'0','1')  is_up  from(  select sellernick,number,updatetime  from(  select sellernick,count(itemid) as number,max(updatetime) as updatetime  from meta_item  where updatetime >= curdate() AND sellernick is not null and is_auth_item='1'  UNION  select sellernick,number,updatetime  from(  select sellernick,sales_product as number,updatetime  from up_cooperation   where updatetime >= curdate() and sales_product>0  order by updatetime desc  ) as temp  group by sellernick  )as temp2  where number > 0  order by updatetime desc  ) as temp3  group by sellernick  ) as temp4   left join meta_cooperation  on temp4.sellernick=meta_cooperation.sellernick  left join up_cooperation_register  on temp4.sellernick=up_cooperation_register.sellernick  where up_cooperation_register.sellernick is null AND temp4.updatetime between '$startDate' AND '$endDate'  ".($operator=='all'?'':" AND meta_cooperation.account='$operator'");
+            $query=$this->db->query($sql);
+            $data['up_item_num']=$query->row()->up_item_num;
+            echo json_encode($data);
         }
     }
 }
