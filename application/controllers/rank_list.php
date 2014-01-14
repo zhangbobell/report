@@ -7,6 +7,7 @@ class Rank_list extends CI_Controller{
         $data['title']='分销商销量增长率排行榜';
         $this->load->view('templates/header',$data);
         $this->load->view('channel_auth/header-add');
+        $this->load->view('rank_list/header-add');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
         $this->load->view('rank_list/sales_rate_rank');
@@ -77,5 +78,41 @@ class Rank_list extends CI_Controller{
         echo $sql;
         $query=$this->db->query($sql);
         var_dump($query->result());
+    }
+    
+    public function sales_rate_rank_data()
+    {
+        $this->load->model('rank_database');
+        $db_sanqiang = $this->rank_database->select_DB('db_sanqiang');
+        $this->load->database($db_sanqiang);
+        
+        $time = $this->input->post('time', TRUE);
+        $db = $this->input->post('db', TRUE);
+        $sql = "select (a.`total`-b.`total`)/b.`total` as diff, a.`sellernick` 
+                from
+                (SELECT if(`createtime` between date_sub('2014-01-09', interval 2 day) and '2014-01-09','1','0') as `idx`, `sellernick`, sum(`number`)
+                as `total` 
+                from `meta_order` 
+                where `createtime` between date_sub('2014-01-09', interval 2 day) and '2014-01-09'
+                or `createtime` between date_sub('2014-01-06', interval 2 day) and '2014-01-06'
+                and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
+                group by `sellernick`, `idx`) a, 
+                (SELECT if(`createtime` between date_sub('2014-01-09', interval 2 day) and '2014-01-09','1','0') as `idx`, `sellernick`, sum(`number`)
+                as `total` 
+                from `meta_order` 
+                where `createtime` between date_sub('2014-01-09', interval 2 day) and '2014-01-09'
+                or `createtime` between date_sub('2014-01-06', interval 2 day) and '2014-01-06'
+                and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
+                group by `sellernick`, `idx`) b 
+                where a.`idx`='1' and b.`idx`='0' and a.`sellernick`=b.`sellernick`
+                order by `diff` DESC
+                LIMIT 20 ";
+        
+        $query = $this->db->query($sql);
+        foreach($query->result_array() as $item)
+        {
+            $rank[] = $item;
+        }
+        echo json_encode($rank);
     }
 }
