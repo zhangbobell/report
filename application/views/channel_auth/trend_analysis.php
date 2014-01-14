@@ -1,6 +1,10 @@
 <div class="cat-title">
 项目
-<?php echo $project;?>
+<select id="db-select">
+    <?php foreach ($this->session->userdata('authDB') as $k => $v ): ?>
+    <option value="<?php echo $k; ?>"><?php echo $v; ?></option>
+    <?php endforeach;?>
+</select>
 <input type="checkbox" name="" id="zhuican-all" checked="checked" data-on-label="追灿" data-off-label="全部" class="switch switch-small" />
 运营人员<?php echo $operator;?>
 日期<input type="text" id="start-date" class="datepicker" size="10" />

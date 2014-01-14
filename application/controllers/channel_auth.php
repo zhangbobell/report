@@ -2,7 +2,6 @@
 class Channel_auth extends CI_Controller{
     //渠道规模
     public function channel_scale(){
-        $data['project']=$this->project_html();
         $data['operator']=$this->operator_html();
         $data['title']='渠道规模';
         $this->load->view('templates/header',$data);
@@ -15,7 +14,6 @@ class Channel_auth extends CI_Controller{
     
     //渠道质量
     public function channel_quality(){
-        $data['project']=$this->project_html();
         $data['operator']=$this->operator_html();
         $data['title']='渠道质量';
         $this->load->view('templates/header',$data);
@@ -28,7 +26,6 @@ class Channel_auth extends CI_Controller{
     
     //趋势分析
      public function trend_analysis(){
-        $data['project']=$this->project_html();
         $data['operator']=$this->operator_html();
         $data['title']='趋势分析';
         $this->load->view('templates/header',$data);
@@ -103,7 +100,7 @@ class Channel_auth extends CI_Controller{
     
      
     //生成“选择项目”的 <select>
-    public function project_html(){
+/*    public function project_html(){
         $this->load->model('rank_database');
         $etc_privileges = $this->rank_database->select_DB('etc_privileges');
         $this->load->database($etc_privileges);
@@ -117,11 +114,11 @@ class Channel_auth extends CI_Controller{
         }
         $html .='</select>';
         return $html;
-    }
+    }*/
     //生成“选择运营人员”的<select>
     public function operator_html(){
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+        $etc_privileges = $this->rank_database->select_DB('test');
         $this->load->database($etc_privileges);
         $sql='SELECT `username` FROM sys_user where `is_valid`="1" AND `groupid`=1';
         $query=$this->db->query($sql);
