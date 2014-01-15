@@ -1,5 +1,4 @@
 <div class="cat-title-op">
-    <?php header("Content-type: text/html; charset=utf-8"); ?>
     <a href="rank_list/sales_rate_rank/" class="op-list activated">分销商销量增长率排行榜</a>
     <a href="rank_list/sales_rank/" class="op-list unactivated">分销商销量排行榜</a>
     <a href="rank_list/product_sales_rate_rank/" class="op-list unactivated">产品销量增长率排行榜</a>
