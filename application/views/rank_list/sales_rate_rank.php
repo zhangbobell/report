@@ -1,4 +1,5 @@
 <div class="cat-title-op">
+    <?php header("Content-type: text/html; charset=utf-8"); ?>
     <a href="rank_list/sales_rate_rank/" class="op-list activated">分销商销量增长率排行榜</a>
     <a href="rank_list/sales_rank/" class="op-list unactivated">分销商销量排行榜</a>
     <a href="rank_list/product_sales_rate_rank/" class="op-list unactivated">产品销量增长率排行榜</a>
@@ -15,13 +16,14 @@
                     <?php endforeach;?>
                 </select>
              <input type="checkbox" name="" id="zhuican-all" checked="checked" data-on-label="追灿" data-off-label="全部" class="switch switch-small" />
-            <div class="r" >
-                <div class="time-span" id="t1">昨天</div>
-                <div class="time-span" id="t3">最近3天</div>
-                <div class="time-span" id="t7">最近7天</div>
-                <div class="time-span" id="t30">最近30天</div>
-                <div class="time-span" id="t90">最近90天</div>
-                <div class="time-span" id="t180">最近180天</div>
+             <div class="btn-group r">
+                <input type="button" class="btn btn-default" value="昨天" id="t1"/>
+                <input type="button" class="btn btn-default" value="最近3天" id="t3"/>
+                <input type="button" class="btn btn-default" value="最近7天" id="t7"/>
+                <input type="button" class="btn btn-default" value="最近30天" id="t30"/>
+                <input type="button" class="btn btn-default" value="最近90天" id="t90"/>
+                <input type="button" class="btn btn-default" value="最近180天" id="t180"/>
+              </div>
                 <div class="fix"></div>
             </div>
             <div class="fix"></div>
