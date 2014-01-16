@@ -1,0 +1,34 @@
+$(document).ready(function(){ 
+    $("#project").on("change",function(){
+            draw($(this).val());    
+    });
+    draw($("#project").val()); 
+    
+});
+function draw(project){
+   data=null;
+    $.ajax({
+        url:"channel_noauth/get_data",
+        type:"post",
+        async:false,
+        dateType:"json",
+        data:{"project":project}
+    }).done(function(d){
+        data=$.parseJSON(d);
+       alert(data);
+        $("#order_fee").highcharts({
+        xAxis:{
+            categories:data.createtime,
+            labels:{
+                rotation:-30
+            }
+        },
+        series:[
+            {
+                 name:"全网商家销售额",
+                 data:data.order_fee
+            }
+        ]
+    });
+    });     
+}
