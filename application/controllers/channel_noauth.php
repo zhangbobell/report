@@ -1,15 +1,17 @@
 <?php
 class channel_noauth extends CI_Controller{
     public function get_data(){
-        $startDate=$_POST['startDate']='2013-12-25';
-        $endDate=$_POST['endDate']='2013-12-25';
-        $this->load->database('mysqli://data:data2123@192.168.1.90/db_sanqiang');
-        $sql='SELECT count(sellernick) as seller_num_all'
-                . ' , sum(price*sales) as order_slaes_fee_all '
-                . ' FROM  meta_item '
-                . 'WHERE createtime BETWEEN "'.$startDate.'" AND "'.$endDate.'" and sales <>-1 and shoptype <>"1"';
-        $query=$this->db->query($sql);
-        var_dump($query->row());
+        $project=$_POST['project'];
+        $this->load->model('rank_database');
+        $db=$this->rank_database->select_DB($project);
+        $this->load->database($db);
+        //全网销售额
+        $sql="SELECT DATE(createtime) AS createtime,SUM(price*number) AS order_fee  FROM meta_order  WHERE DATE(createtime) BETWEEN DATE_SUB(CURDATE(),INTERVAL 30 DAY) AND CURDATE()  GROUP BY DATE(createtime)";
+        foreach($this->db->query($sql)->result_array() as $value){
+            $data['createtime'][]=$value['createtime'];
+            $data['order_fee'][]=(float)$value['order_fee'];
+        }
+        echo json_encode($data);
     }
     
     //趋势分析
@@ -22,6 +24,7 @@ class channel_noauth extends CI_Controller{
         $this->load->view('templates/sidebar');
         $this->load->view('channel_noauth/trend_analysis');
         $this->load->view('templates/footer');
+        
 }
     
     //非授权分销商名单

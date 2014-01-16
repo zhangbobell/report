@@ -7,5 +7,5 @@
 <script type="text/javascript" src="<?php echo base_url().PUB_DIR;?>/bootstrap/js/bootstrap-switch.js"></script>
 <script type="text/javascript" src="<?php echo base_url().JS_DIR;?>/channel_scale.js"></script>
 <script type="text/javascript" src="<?php echo base_url().JS_DIR;?>/channel_quality.js"></script>
-<script type="text/javascript" src="<?php echo base_url().JS_DIR;?>/channel_noauth_trend_analysis.js"></script>
+<script type="text/javascript" src="<?php echo base_url().JS_DIR;?>/channel_auth_trend_analysis.js"></script>
 <script type="text/javascript" src="<?php echo base_url().JS_DIR;?>/highstock.js"></script>

@@ -69,7 +69,7 @@ class Channel_auth extends CI_Controller{
         $sql="SELECT   COUNT(sellernick) AS seller_num FROM meta_cooperation WHERE status>'0' AND startdate < '$endDate' ".($operator=='all'?'':" AND account='$operator'");
         $query=$this->db->query($sql);
         $data['seller_num']=$query->row()->seller_num;
-        //上架的授权分销商数量
+        //上架的授权分销商数量（全部）
         $sql="select COUNT(temp_2.sellernick) AS up_seller_num  from(  SELECT updatetime,sellernick,number up_number,if(updatetime<curdate(),'0','1') is_up  from(  select sellernick,number,updatetime  from(  select sellernick,count(itemid) as number,max(updatetime) as updatetime  from meta_item  where updatetime >= curdate() AND sellernick is not null and is_auth_item='1'  UNION  select sellernick,number,updatetime  from(  select sellernick,sales_product as number,updatetime  from up_cooperation   where updatetime >= curdate() and sales_product>0  order by updatetime desc  ) as temp  group by sellernick  )as temp_0  where number > 0  order by updatetime desc  ) as temp_1  group by sellernick  ) as temp_2   left join meta_cooperation  on temp_2.sellernick=meta_cooperation.sellernick  where temp_2.updatetime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'");
         $query=$this->db->query($sql);
         $data['up_seller_num']=$query->row()->up_seller_num;
@@ -198,5 +198,41 @@ class Channel_auth extends CI_Controller{
             $data['up_item_num']=$query->row()->up_item_num;
             echo json_encode($data);
         }
+    }
+    public function data_channel_auth_trend_analysis(){
+        //获取AJAX发送来的数据
+        $project=$_POST['project'];
+        $operator=$_POST['operator'];
+        $startDate=$_POST['startDate'];
+        $endDate=$_POST['endDate'];
+        $zhuicanAll=$_POST['zhuicanAll'];
+        //选择数据库
+        $this->load->model("rank_database");
+        $db=$this->rank_database->select_DB($project);
+        $this->load->database($db);
+        //失败订单排除规则
+        $sql="select name,rule".
+            " from etc_rule".
+            " where name='ORDER_FAILED'";      
+        $query=$this->db->query($sql);
+        $etc_rule=$query->row()->rule;
+        preg_match_all('/%([^%]*)%/',$etc_rule,$arr);
+        $etc_rule=implode('|',$arr[1]);
+        if($zhuicanAll=='all'){
+            //销售额，销售量（全部）
+            $sql="SELECT createtime,SUM(order_fee) AS order_fee , SUM(order_num) AS order_num FROM(      SELECT DATE(meta_order.createtime) AS createtime,(meta_order.price*meta_order.number) AS order_fee,meta_order.number AS order_num,meta_order.sellernick,meta_cooperation.account      FROM meta_order      INNER JOIN meta_cooperation      ON meta_order.sellernick=meta_cooperation.sellernick      ORDER BY createtime DESC  ) AS temp  WHERE createtime BETWEEN '$startDate' AND '$endDate'  GROUP BY createtime".($operator=='all'?'':" AND account='$operator'");
+        //$data['order_fee']=$this->db->query($sql)->result_array();
+        foreach($this->db->query($sql)->result_array() as $value){
+            $data['createtime'][]=$value['createtime'];
+            $data['order_fee'][]=(float)$value['order_fee'];
+            $data['order_num'][]=(int)$value['order_num'];
+        }
+        //分销商数量（全部）
+        $sql="SELECT   COUNT(sellernick) AS seller_num FROM meta_cooperation WHERE status>'0' AND startdate < '$endDate' ".($operator=='all'?'':" AND account='$operator'");
+        echo json_encode($data);
+        }else{
+            
+        }
+        
     }
 }
