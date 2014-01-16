@@ -1,3 +1,4 @@
+/*
 $(document).ready(function(){ 
     $("#project").on("change",function(){
             draw($(this).val());    
@@ -32,3 +33,4 @@ function draw(project){
     });
     });     
 }
+*/
