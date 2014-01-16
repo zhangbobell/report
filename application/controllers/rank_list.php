@@ -33,6 +33,7 @@ class Rank_list extends CI_Controller{
         $data['title']='产品销量增长率排行榜';
         $this->load->view('templates/header',$data);
         $this->load->view('channel_auth/header-add');
+        $this->load->view('rank_list/header-add-product-sales-rate');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
         $this->load->view('rank_list/product_sales_rate_rank');
@@ -45,6 +46,7 @@ class Rank_list extends CI_Controller{
         $data['title']='产品销量排行榜';
         $this->load->view('templates/header',$data);
         $this->load->view('channel_auth/header-add');
+        $this->load->view('rank_list/header-add-product-sales');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
         $this->load->view('rank_list/product_sales_rank');
@@ -221,4 +223,112 @@ class Rank_list extends CI_Controller{
         }
         echo json_encode($rank);        
     }
+    
+    //产品销量增长率排行榜
+    public function product_sales_rate_rank_data( )
+    {
+        $time = $this->input->post('time', TRUE);
+        $db = $this->input->post('db', TRUE);
+        $this->load->model('rank_database');
+        $db_sanqiang = $this->rank_database->select_DB($db);
+        $this->load->database($db_sanqiang);
+        
+        $last_last = "date_sub(curdate(), interval 1 day)";
+        $last_prior = "date_sub(curdate(), interval ". $time ." day)";
+        $prior_last = "date_sub(curdate(), interval ". ($time+1) ." day)";
+        $prior_prior = "date_sub(curdate(), interval ". ($time*2) ." day)";
+
+        
+            if($time != '1')
+            {
+                $sql = "select (a.`total`-b.`total`)/b.`total` as diff, a.`price`, a.`skuid`, a.`total` as `total_a`, b.`total` as `total_b` 
+                        from
+                        (SELECT if(`createtime` between ". $last_prior ." and ". $last_last .",'1','0') as `idx`, `skuid`, `price`, sum(`number`)
+                        as `total` 
+                        from `meta_order` 
+                        where `createtime` between ". $last_prior ." and ". $last_last ."
+                        or `createtime` between ". $prior_prior ." and ". $prior_last ."
+                        and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
+                        group by `skuid`, `idx`) a, 
+                        (SELECT if(`createtime` between ". $last_prior ." and ". $last_last .",'1','0') as `idx`, `skuid`, `price`, sum(`number`)
+                        as `total` 
+                        from `meta_order` 
+                        where `createtime` between ". $last_prior ." and ". $last_last ."
+                        or `createtime` between ". $prior_prior ." and ". $prior_last ."
+                        and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
+                        group by `skuid`, `idx`) b 
+                        where a.`idx`='1' and b.`idx`='0' and a.`skuid`=b.`skuid`
+                        order by `diff` DESC
+                        LIMIT 20";
+            }
+            else
+            {
+                $sql = "select (a.`total`-b.`total`)/b.`total` as diff, a.`price`, a.`skuid`, a.`total` as `total_a`, b.`total` as `total_b`  
+                        from
+                        (SELECT if(date(`createtime`) = ". $last_last .",'1','0') as `idx`, `skuid`, `price`, sum(`number`)
+                        as `total` 
+                        from `meta_order` 
+                        where date(`createtime`) = ". $last_last ."
+                        or date(`createtime`) = ". $prior_last ."
+                        and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
+                        group by `skuid`, `idx`) a, 
+                        (SELECT if(date(`createtime`) = ". $last_last .",'1','0') as `idx`, `skuid`, `price`, sum(`number`)
+                        as `total` 
+                        from `meta_order` 
+                        where date(`createtime`) = ". $last_last ."
+                        or date(`createtime`) = ". $prior_last ."
+                        and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
+                        group by `skuid`, `idx`) b 
+                        where a.`idx`='1' and b.`idx`='0' and a.`skuid`=b.`skuid`
+                        order by `diff` DESC
+                        LIMIT 20";
+            }
+            
+            $query = $this->db->query($sql);
+            $rank=null;
+            foreach($query->result_array() as $item)
+            {
+                $rank[] = $item;
+            }
+            echo json_encode($rank);        
+    }
+    
+    //产品销量排行榜
+     public function product_sales_rank_data( )
+    {
+        $time = $this->input->post('time', TRUE);
+        $db = $this->input->post('db', TRUE);
+        $this->load->model('rank_database');
+        $db_sanqiang = $this->rank_database->select_DB($db);
+        $this->load->database($db_sanqiang);
+        
+        $last_last = "date_sub(curdate(), interval 1 day)";
+        $last_prior = "date_sub(curdate(), interval ". $time ." day)";
+     
+        if($time != '1')
+        {
+            $sql = "SELECT `skuid`, `price`, sum(`number`) as `total` 
+                    from `meta_order` 
+                    where `createtime` between ". $last_prior ." and ". $last_last ." 
+                    and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
+                    group by `skuid` order by `total` DESC LIMIT 20";
+        }
+        else
+        {
+            $sql = "SELECT `skuid`, `price`, sum(`number`) as `total` 
+                    from `meta_order` 
+                    where date(`createtime`) = ". $last_last ." 
+                    and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
+                    group by `skuid` order by `total` DESC LIMIT 20";
+        }
+
+        $query = $this->db->query($sql);
+        $rank=null;
+        foreach($query->result_array() as $item)
+        {
+            $rank[] = $item;
+        }
+        echo json_encode($rank);        
+    }
+
 }

@@ -7,8 +7,28 @@
 </div>
 <div class="mt10">
     <div class="pct100 l bgwh">
-        <div class="mt20 ml30">
-            产品销量排行榜
+        <div class="mt20 ml20 mr20">
+            <div class="pct100">
+                <select id="db-select">
+                    <?php foreach ($this->session->userdata('authDB') as $k => $v ): ?>
+                    <option value="<?php echo $k; ?>"><?php echo $v; ?></option>
+                    <?php endforeach;?>
+                </select>
+             <div class="btn-group r">
+                <input type="button" class="btn btn-default" value="昨天" id="t1"/>
+                <input type="button" class="btn btn-default" value="最近3天" id="t3"/>
+                <input type="button" class="btn btn-default" value="最近7天" id="t7"/>
+                <input type="button" class="btn btn-default" value="最近30天" id="t30"/>
+                <input type="button" class="btn btn-default" value="最近90天" id="t90"/>
+                <input type="button" class="btn btn-default" value="最近180天" id="t180"/>
+              </div>
+                <div class="fix"></div>
+            </div>
+            <div class="fix"></div>
+        </div>
+            <div class="pct100 mt20" id="rank">
+                
+            </div>
         </div>
     </div>
     <div class="fix"></div>
