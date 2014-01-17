@@ -9,12 +9,12 @@ $(document).ready(function(){
         showOn:"both",
         buttonImage:"public/jquery-ui/calendar.gif",
         buttonImageOnly:true
-    });
-    
+    }).datepicker("setDate","0");
+   
     $(".switch").bootstrapSwitch();
     $("#query").on("click",query);
     
-    
+    query();
     
 });
 

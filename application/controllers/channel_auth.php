@@ -29,7 +29,7 @@ class Channel_auth extends CI_Controller{
         $data['operator']=$this->operator_html();
         $data['title']='趋势分析';
         $this->load->view('templates/header',$data);
-        $this->load->view('channel_auth/header-add');
+        $this->load->view('channel_auth/header_add_trend_analysis');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
         $this->load->view('channel_auth/trend_analysis');
@@ -223,12 +223,17 @@ class Channel_auth extends CI_Controller{
             $sql="SELECT createtime,SUM(order_fee) AS order_fee , SUM(order_num) AS order_num FROM(      SELECT DATE(meta_order.createtime) AS createtime,(meta_order.price*meta_order.number) AS order_fee,meta_order.number AS order_num,meta_order.sellernick,meta_cooperation.account      FROM meta_order      INNER JOIN meta_cooperation      ON meta_order.sellernick=meta_cooperation.sellernick      ORDER BY createtime DESC  ) AS temp  WHERE createtime BETWEEN '$startDate' AND '$endDate'  GROUP BY createtime".($operator=='all'?'':" AND account='$operator'");
         //$data['order_fee']=$this->db->query($sql)->result_array();
         foreach($this->db->query($sql)->result_array() as $value){
-            $data['createtime'][]=$value['createtime'];
-            $data['order_fee'][]=(float)$value['order_fee'];
-            $data['order_num'][]=(int)$value['order_num'];
+            $data['order_fee']['createtime'][]=$value['createtime'];
+            $data['order_fee']['order_fee'][]=(float)$value['order_fee'];
+            $data['order_fee']['order_num'][]=(int)$value['order_num'];
         }
         //分销商数量（全部）
+        $sql="select temp.startdate,sum(temp2.seller_num_growth) as seller_num FROM (  SELECT   startdate,count(sellernick)  FROM meta_cooperation  WHERE status>'0' AND startdate < '$endDate' ".($operator=='all'?'':" AND account='$operator'") ."GROUP BY startdate  ) as temp  INNER JOIN temp as temp2  ON temp2.startdate<=temp.startdate  GROUP BY temp.startdate";
         $sql="SELECT   COUNT(sellernick) AS seller_num FROM meta_cooperation WHERE status>'0' AND startdate < '$endDate' ".($operator=='all'?'':" AND account='$operator'");
+        foreach($this->db->query($sql)->result_array() as $value){
+            $data['seller_num']['startdate'][]=$value['startdate'];
+            $data['seller_num']['seller_num'][]=(int)$value['seller_num'];
+        }
         echo json_encode($data);
         }else{
             

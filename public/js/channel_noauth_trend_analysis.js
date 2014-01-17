@@ -5,6 +5,25 @@ $(document).ready(function(){
     draw($("#project").val()); 
     
 });
+Highcharts.setOptions({
+    title:{
+            text:null
+    },
+    yAxis:{
+        title:{
+            text:null
+        },
+        lineWidth:1,
+        min:0
+    },
+    plotOptions:{
+        series:{
+            marker:{
+                enabled:false
+            }
+        }
+    }
+});
 function draw(project){
    data=null;
     $.ajax({
@@ -15,10 +34,9 @@ function draw(project){
         data:{"project":project}
     }).done(function(d){
         data=$.parseJSON(d);
-       alert(data);
         $("#order_fee").highcharts({
         xAxis:{
-            categories:data.createtime,
+            categories:data['order_fee'].createtime,
             labels:{
                 rotation:-30
             }
@@ -26,9 +44,54 @@ function draw(project){
         series:[
             {
                  name:"全网商家销售额",
-                 data:data.order_fee
+                 data:data['order_fee'].order_fee
             }
         ]
     });
-    });     
+    
+    $("#seller_num_full").highcharts({
+        xAxis:{
+            categories:data['seller_num_full'].updatetime,
+            labels:{
+                rotation:-30
+            }
+        },
+        series:[
+            {
+                 name:"全网商家数量",
+                 data:data['seller_num_full'].seller_num_full
+            }
+        ]
+    });
+    
+    $("#page_sales_fee_30_auth_srate").highcharts({
+        xAxis:{
+            categories:data['page_sales_fee_30_auth_srate'].updatetime,
+            labels:{
+                rotation:-30
+            }
+        },
+        series:[
+            {
+                 name:"授权分销商销售额占比",
+                 data:data['page_sales_fee_30_auth_srate'].page_sales_fee_30_auth_srate
+            }
+        ]
+    });
+    
+    $("#price_change_rate").highcharts({
+        xAxis:{
+            categories:data['price_change_rate'].updatetime,
+            labels:{
+                rotation:-30
+            }
+        },
+        series:[
+            {
+                 name:"全网乱价率",
+                 data:data['price_change_rate'].price_change_rate
+            }
+        ]
+    });
+});     
 }
