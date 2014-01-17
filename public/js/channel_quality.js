@@ -16,7 +16,7 @@ $(document).ready(function(){
     */
     $("#query_channel_quality").on("click",query_channel_quality);
     
-    
+    query_channel_quality();
     
 });
 

@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    /*
+    
     $.datepicker.setDefaults(
         $.datepicker.regional["zh-CN"]
     );
@@ -13,9 +13,9 @@ $(document).ready(function(){
     });
     
     $(".switch").bootstrapSwitch();
-    */
-    $("#query_channel_auth_trend_analysis").on("click",query_channel_auth_trend_analysis);
     
+    $("#query_channel_auth_trend_analysis").on("click",query_channel_auth_trend_analysis);
+    query_channel_auth_trend_analysis();
     
     
 });
@@ -40,6 +40,11 @@ function query_channel_auth_trend_analysis(){
         title:{
             text:null
         },
+        xAxis:{
+            labels:{
+                rotation:-30
+            }
+        },
         yAxis:{
 		lineWidth:1,
                 min:0,
@@ -53,10 +58,7 @@ function query_channel_auth_trend_analysis(){
     
     $("#order_sales").highcharts({
         xAxis:{
-            categories:data.createtime,
-            labels:{
-                rotation:-90
-            }
+            categories:data.createtime
         },
         yAxis:[
             {

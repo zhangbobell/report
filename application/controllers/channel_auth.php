@@ -29,7 +29,7 @@ class Channel_auth extends CI_Controller{
         $data['operator']=$this->operator_html();
         $data['title']='趋势分析';
         $this->load->view('templates/header',$data);
-        $this->load->view('channel_auth/header-add');
+        $this->load->view('channel_auth/header_add_trend_analysis');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
         $this->load->view('channel_auth/trend_analysis');
