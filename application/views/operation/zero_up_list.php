@@ -23,4 +23,3 @@
         </div>
     </div>
     <div class="fix"></div>
-</div>
