@@ -52,9 +52,72 @@ class channel_noauth extends CI_Controller{
         $data['title']='非授权商家名单';
         $this->load->view('templates/header',$data);
         $this->load->view('channel_auth/header-add');
+        $this->load->view('channel_noauth/header_add_rank_noauth');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
         $this->load->view('channel_noauth/rank_noauth');
         $this->load->view('templates/footer');
 }
+
+    public function rank_noauth_data()
+    {
+        $startDate = $this->input->post('startdate', TRUE);
+        $endDate = $this->input->post('enddate', TRUE);
+        $db = $this->input->post('db', TRUE);
+        $sop = $this->input->post('sop', TRUE);
+        
+        $this->load->model('rank_database');
+        $db_sanqiang = $this->rank_database->select_DB($db);
+        $this->load->database($db_sanqiang);
+
+     
+        if($startDate !== $endDate)
+        {
+            $sql = "select `a`.`sellernick`, `a`.`total`, `status_auth_shop`.`price_range` from
+                    (select `sellernick`, sum(`number`) as `total` from
+                    `meta_order` where
+                    `sellernick` in (select `sellernick` from `meta_cooperation` where `status` = '0')
+                    and `createtime` between '". $startDate ."' and '". $endDate ."' 
+                    and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
+                    group by `sellernick`
+                    ) as a
+                    left join
+                    `status_auth_shop`
+                    on `a`.`sellernick` = `status_auth_shop`.`sellernick`
+                    group by `sellernick`";
+        }
+        else
+        {
+            $sql = "select `a`.`sellernick`, `a`.`total`, `status_auth_shop`.`price_range` from
+                    (select `sellernick`, sum(`number`) as `total` from
+                    `meta_order` where
+                    `sellernick` in (select `sellernick` from `meta_cooperation` where `status` = '0')
+                    and date(`createtime`) = '". $startDate ."'
+                    and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
+                    group by `sellernick`
+                    ) as a
+                    left join
+                    `status_auth_shop`
+                    on `a`.`sellernick` = `status_auth_shop`.`sellernick`
+                    group by `sellernick`";
+        }
+        
+        //如果是按照销量排序
+        if($sop == 'true')
+        {
+            $sql .= " order by `total` DESC LIMIT 20"; 
+        }
+        else 
+        {
+            $sql .= " order by abs(`price_range`) DESC LIMIT 20"; 
+        }
+        
+        $query = $this->db->query($sql);
+        $rank=null;
+        foreach($query->result_array() as $item)
+        {
+            $rank[] = $item;
+        }
+        echo json_encode($rank);  
+    }
 }

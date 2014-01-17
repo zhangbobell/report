@@ -86,8 +86,8 @@ class Operation extends CI_Controller{
                 where `status` > '0' 
                 and `updatetime` = '". $time ."'
                 ) as all_seller
-                where all_seller.`sellernick` not in (select `sellernick` from `status_price_log` where `status` = '0')
-                order by `price_range`
+                where all_seller.`sellernick` in (select `sellernick` from `status_price_log` where `status` = '1')
+                order by abs(`price_range`) DESC
                 LIMIT 20";
         
         if($isZC == 'true')
@@ -98,9 +98,9 @@ class Operation extends CI_Controller{
                 where `status` > '0' 
                 and `updatetime` = '". $time ."'
                 ) as all_seller
-                where all_seller.`sellernick` not in (select `sellernick` from `status_price_log` where `status` = '0') 
+                where all_seller.`sellernick` in (select `sellernick` from `status_price_log` where `status` = '1')
                 and all_seller.`sellernick` not in (select `sellernick` from `up_cooperation_register`)
-                order by `price_range`
+                order by abs(`price_range`) DESC
                 LIMIT 20";
         }
         

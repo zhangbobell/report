@@ -49,7 +49,7 @@ class Competence_management extends CI_Controller
         $data['title'] = "项目管理";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+        $etc_privileges = $this->rank_database->select_DB('test');
         $this->load->database($etc_privileges);
 
         /*$query = $this->db->get('sys_project');
@@ -138,7 +138,7 @@ class Competence_management extends CI_Controller
         $data['title'] = "增加项目";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+        $etc_privileges = $this->rank_database->select_DB('test');
         $this->load->database($etc_privileges);
 
         $this->db->select('userid,username');
@@ -181,7 +181,7 @@ class Competence_management extends CI_Controller
         $data['title'] = "增加项目结果";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+        $etc_privileges = $this->rank_database->select_DB('test');
         $this->load->database($etc_privileges);
 
         $project = array(
@@ -244,7 +244,7 @@ class Competence_management extends CI_Controller
         $data['title'] = "修改项目";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+        $etc_privileges = $this->rank_database->select_DB('test');
         $this->load->database($etc_privileges);
 
         //获取项目信息
@@ -299,7 +299,7 @@ class Competence_management extends CI_Controller
         $data['title'] = "修改项目结果";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+        $etc_privileges = $this->rank_database->select_DB('test');
         $this->load->database($etc_privileges);
 
         $project = array(
@@ -367,7 +367,7 @@ class Competence_management extends CI_Controller
         $data['title'] = "删除项目结果";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+        $etc_privileges = $this->rank_database->select_DB('test');
         $this->load->database($etc_privileges);
         
         //获取项目编号，为删除项目管理员做准备
@@ -418,7 +418,7 @@ class Competence_management extends CI_Controller
         $data['title'] = "用户管理";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+        $etc_privileges = $this->rank_database->select_DB('test');
         $this->load->database($etc_privileges);
 
         $sql = 'SELECT
@@ -507,7 +507,7 @@ class Competence_management extends CI_Controller
         $data['title'] = "增加用户";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+        $etc_privileges = $this->rank_database->select_DB('test');
         $this->load->database($etc_privileges);
 
         //生成授权项目多选列表
@@ -543,7 +543,7 @@ class Competence_management extends CI_Controller
         $data['title'] = "增加项目结果";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+        $etc_privileges = $this->rank_database->select_DB('test');
         $this->load->database($etc_privileges);
         
         $groupMap = array(
@@ -622,7 +622,7 @@ class Competence_management extends CI_Controller
         $data['title'] = "修改用户";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+        $etc_privileges = $this->rank_database->select_DB('test');
         $this->load->database($etc_privileges);
 
         //获取用户信息
@@ -686,7 +686,7 @@ class Competence_management extends CI_Controller
         $data['title'] = "修改用户结果";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+        $etc_privileges = $this->rank_database->select_DB('test');
         $this->load->database($etc_privileges);
 
         $groupMap = array(
@@ -768,7 +768,7 @@ class Competence_management extends CI_Controller
         $data['title'] = "删除用户结果";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+        $etc_privileges = $this->rank_database->select_DB('test');
         $this->load->database($etc_privileges);
         
         //删除用户信息
