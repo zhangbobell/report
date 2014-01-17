@@ -9,7 +9,6 @@
 运营人员<?php echo $operator;?>
 日期<input type="text" id="start-date" class="datepicker" size="10" />
 到<input type="text" id="end-date"  class="datepicker" size="10" />
-<button id="query_channel_auth_trend_analysis">查询</button>
 </div>
 <div class="mt10">
     <div class="cat-title bb10 b">分销商销售趋势（30天）</div>
@@ -20,7 +19,7 @@
 </div>
 <div class="mt10">
     <div class="cat-title bb10 b">分销商数量</div>
-    <div class="chart-a">
+    <div class="chart-a" id="seller_num">
         授权分销商数量，在架分销商数量，流失分销商数量
     </div>
     

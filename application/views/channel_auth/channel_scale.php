@@ -9,7 +9,6 @@
 运营人员<?php echo $operator;?>
 日期<input type="text" id="start-date" class="datepicker" size="10" />
 到<input type="text" id="end-date"  class="datepicker" size="10" />
-<button id="query">查询</button>
 </div>
 <div class="mt10">
     <div class="cat-title bb10 b">产品和分销商情况</div>

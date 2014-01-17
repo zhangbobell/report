@@ -9,7 +9,6 @@
 运营人员<?php echo $operator;?>
 日期<input type="text" id="start-date" class="datepicker" size="10" />
 到<input type="text" id="end-date"  class="datepicker" size="10" />
-<button id="query_channel_quality">查询</button>
 </div>
 <div class="mt10">
     <div class="cat-title bb10 b">商品上架质量</div>
@@ -35,7 +34,7 @@
         <div class="l-num-title">平均上架商品数</div>
         <div class="l-num-title">流失分销商数量</div>
         <div class="l-num curr" id="up_item_num">7 287</div>
-        <div class="l-num curr">210</div>
+        <div class="l-num curr" id="seller_num_lost">210</div>
         <div class="fix"></div>
     </div>
     <div class="fix"></div>
