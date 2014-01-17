@@ -86,7 +86,7 @@ class Operation extends CI_Controller{
                 where `status` > '0' 
                 and `updatetime` = '". $time ."'
                 ) as all_seller
-                where all_seller.`sellernick` not in (select `sellernick` from `status_price_log` where `status` = '0')
+                where all_seller.`sellernick` in (select `sellernick` from `status_price_log` where `status` = '1')
                 order by `price_range`
                 LIMIT 20";
         
@@ -98,7 +98,7 @@ class Operation extends CI_Controller{
                 where `status` > '0' 
                 and `updatetime` = '". $time ."'
                 ) as all_seller
-                where all_seller.`sellernick` not in (select `sellernick` from `status_price_log` where `status` = '0') 
+                where all_seller.`sellernick` in (select `sellernick` from `status_price_log` where `status` = '1')
                 and all_seller.`sellernick` not in (select `sellernick` from `up_cooperation_register`)
                 order by `price_range`
                 LIMIT 20";
