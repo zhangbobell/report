@@ -73,11 +73,11 @@
             //验证用户名密码
             $this->load->model('rank_database');
             //现在使用的是90数据库里面的test库作为etc_privileges的测试库
-            $etc_privileges = $this->rank_database->select_DB('test');
+            $etc_privileges = $this->rank_database->select_DB('etc_privileges');
             $this->load->database($etc_privileges);
             
             $sql = 'SELECT `userid`,`groupid` '
-                    . 'FROM `sys_user` '
+                    . 'FROM `etc_user` '
                     . 'WHERE `username` = \''. $this->input->post('username', TRUE) .'\' '
                     . 'AND `password` = \''. $this->input->post('password', TRUE) .'\' ';
             $query = $this->db->query($sql);
@@ -92,10 +92,10 @@
                 
                 //设置session数据
                 $id = $query->result_array();
-                $sql = 'SELECT `sys_project`.`projectname`, `sys_project`.`dbname` '
-                        . 'FROM `sys_project` '
+                $sql = 'SELECT `etc_project`.`projectname`, `etc_project`.`dbname` '
+                        . 'FROM `etc_project` '
                         . 'LEFT JOIN `rep_competence` '
-                        . 'ON `rep_competence`.`pid` = `sys_project`.`pid` '
+                        . 'ON `rep_competence`.`pid` = `etc_project`.`pid` '
                         . 'WHERE `rep_competence`.`uid` = \''. $id[0]['userid'] .'\' ';
                 $query = $this->db->query($sql);
                 foreach ($query->result_array() as $row )
@@ -120,6 +120,100 @@
             $data['title'] = '注销成功';
             $this->load->view('main/'.$page, $data);
             $this->load->view('templates/login-footer');
+        }
+        
+        public function register()
+        {
+          $page = "register";
+          if ( ! file_exists('application/views/main/'.$page.'.php'))
+          {
+            // 页面不存在
+            show_404();
+          }
+   
+          $data['title'] = "用户注册";
+
+          $this->load->view('main/'.$page, $data);
+          $this->load->view('templates/login-footer', $data);
+
+        }
+        
+        public function register_validate()
+        {
+
+            $registerResult;
+            //插入用户名密码
+            $this->load->model('rank_database');
+            //现在使用的是90数据库里面的etc_privileges库
+            $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+            $this->load->database($etc_privileges);
+            
+            $is_unique;
+            $sql = "SELECT count(`username`) as `is_exist` from `etc_user` WHERE `username` = '". $this->input->post('username', TRUE) ."'";
+            $query = $this->db->query($sql);
+            foreach ($query->result_array() as $row)
+            {
+               $is_unique = $row['is_exist'];
+            }
+            if($is_unique)
+            {
+                echo '2';
+                return;
+            }
+            
+            //唯一则插入
+            $sql ='INSERT INTO `etc_user` (`username`, `password`, `group`, `groupid`, `is_valid`) VALUES (\''. $this->input->post('username', TRUE) .'\',\''. $this->input->post('password', TRUE) .'\',\'维权专员\', \'2\', \'1\')';
+            $query = $this->db->query($sql);
+            if($query)
+            {           
+                $sql = 'SELECT LAST_INSERT_ID()';
+                $query = $this->db->query( $sql );
+                $qry_arr = $query->result_array();
+                $userid = $qry_arr[0]['LAST_INSERT_ID()'];
+
+                //获取所有项目
+                $data;
+                $this->db->select('pid');
+                $query = $this->db->get('etc_project');
+                foreach ($query->result_array() as $row)
+                {
+                   $data[] = $row['pid'];
+                }
+                $project = array();
+                foreach( $data as $pid)
+                {
+                    $temp = array(
+                      'uid' => $userid ,
+                      'pid' => $pid
+                    );
+                    $project[] = $temp; 
+                }
+
+                if($this->db->insert_batch('rep_competence', $project))
+                {
+                    $registerResult = 1;
+                }
+                else 
+                {
+                    $registerResult = 0;//注册失败
+                }
+            }
+            else 
+            {
+                $registerResult=0;//注册失败
+            }
+            
+            
+            
+            if($registerResult)
+            {
+                echo '1';//注册成功
+            }
+            else 
+            {
+                echo '0';//注册失败
+            }
+ 
         }
     }
 

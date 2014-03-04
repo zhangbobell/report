@@ -29,9 +29,9 @@ createTime : 2013-12-30
 }
 .login-form{
     width: 300px;
-    height: 340px;
+    height: 410px;
     padding: 13px 14px 15px;
-    margin-top: 130px;
+    margin-top: 110px;
     margin-left: auto;
     margin-right: auto;
     background-image: url(../images/transparent-18.png);
@@ -120,4 +120,12 @@ createTime : 2013-12-30
     color: #fff;
     font-size: 20px;
     font-family: "微软雅黑","黑体";
+}
+.update
+{
+    line-height: 18px;
+    margin-left: 20px;
+    font-size: 14px;
+    color: #fff;
+    list-style-position: inside;
 }

@@ -49,25 +49,25 @@ class Competence_management extends CI_Controller
         $data['title'] = "项目管理";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('test');
+        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
         $this->load->database($etc_privileges);
 
-        /*$query = $this->db->get('sys_project');
+        /*$query = $this->db->get('etc_project');
         foreach ($query->result_array() as $row)
         {
            $data['project'][] = $row;
         }*/
         $sql = 'SELECT
-                `sys_project`.*,
-                `sys_user`.`username`
+                `etc_project`.*,
+                `etc_user`.`username`
                 FROM 
-                `sys_project` 
+                `etc_project` 
                 LEFT JOIN 
                 `rep_competence`
-                ON `sys_project`.`pid` = `rep_competence`.`pid`
+                ON `etc_project`.`pid` = `rep_competence`.`pid`
                 LEFT JOIN
-                `sys_user`
-                ON  `rep_competence`.`uid` = `sys_user`.`userid` ';
+                `etc_user`
+                ON  `rep_competence`.`uid` = `etc_user`.`userid` ';
         $query = $this->db->query($sql);
         $totalRecord = $query->num_rows();
         
@@ -138,11 +138,11 @@ class Competence_management extends CI_Controller
         $data['title'] = "增加项目";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('test');
+        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
         $this->load->database($etc_privileges);
 
         $this->db->select('userid,username');
-        $query = $this->db->get('sys_user');
+        $query = $this->db->get('etc_user');
         foreach ($query->result_array() as $row)
         {
            $data['user'][] = $row;
@@ -181,7 +181,7 @@ class Competence_management extends CI_Controller
         $data['title'] = "增加项目结果";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('test');
+        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
         $this->load->database($etc_privileges);
 
         $project = array(
@@ -191,7 +191,7 @@ class Competence_management extends CI_Controller
                'is_valid' => $this->input->post('is_valid', TRUE)
             );
 
-        if($this->db->insert('sys_project', $project))
+        if($this->db->insert('etc_project', $project))
         {
             $data['insertProjectResult'] = '增加项目成功';
         }
@@ -244,13 +244,13 @@ class Competence_management extends CI_Controller
         $data['title'] = "修改项目";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('test');
+        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
         $this->load->database($etc_privileges);
 
         //获取项目信息
         $this->db->select('pid,projectname,dbname,is_valid');
         $this->db->where('id', $id); 
-        $query = $this->db->get('sys_project');
+        $query = $this->db->get('etc_project');
         foreach ($query->result_array() as $row)
         {
            $data['project'] = $row;
@@ -274,7 +274,7 @@ class Competence_management extends CI_Controller
         
         //获取所有管理员
         $this->db->select('userid,username');
-        $query = $this->db->get('sys_user');
+        $query = $this->db->get('etc_user');
         foreach ($query->result_array() as $row)
         {
            $data['userAll'][] = $row;
@@ -299,7 +299,7 @@ class Competence_management extends CI_Controller
         $data['title'] = "修改项目结果";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('test');
+        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
         $this->load->database($etc_privileges);
 
         $project = array(
@@ -310,7 +310,7 @@ class Competence_management extends CI_Controller
             );
         
         $this->db->where('id', $id); 
-        if($this->db->update('sys_project', $project))
+        if($this->db->update('etc_project', $project))
         {
             $data['updateProjectResult'] = '修改项目成功';
         }
@@ -367,20 +367,20 @@ class Competence_management extends CI_Controller
         $data['title'] = "删除项目结果";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('test');
+        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
         $this->load->database($etc_privileges);
         
         //获取项目编号，为删除项目管理员做准备
         $this->db->select('pid');
         $this->db->where('id', $id); 
-        $query = $this->db->get('sys_project');
+        $query = $this->db->get('etc_project');
         foreach ($query->result_array() as $row)
         {
            $data['project'] = $row;
         }
         //删除项目信息
         $this->db->where('id', $id);
-        if($this->db->delete('sys_project'))
+        if($this->db->delete('etc_project'))
         {
             $data['deleteProjectResult'] = '删除项目成功';
         }
@@ -418,23 +418,23 @@ class Competence_management extends CI_Controller
         $data['title'] = "用户管理";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('test');
+        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
         $this->load->database($etc_privileges);
 
         $sql = 'SELECT
-                `sys_user`.`userid`,
-                `sys_user`.`username`,
-                `sys_user`.`group`,
-                `sys_project`.`projectname`,
-                `sys_user`.`is_valid`
+                `etc_user`.`userid`,
+                `etc_user`.`username`,
+                `etc_user`.`group`,
+                `etc_project`.`projectname`,
+                `etc_user`.`is_valid`
                 FROM 
-                `sys_user` 
+                `etc_user` 
                 LEFT JOIN 
                 `rep_competence`
-                ON `rep_competence`.`uid` = `sys_user`.`userid`
+                ON `rep_competence`.`uid` = `etc_user`.`userid`
                 LEFT JOIN
-                `sys_project`
-                ON `sys_project`.`pid` = `rep_competence`.`pid`';
+                `etc_project`
+                ON `etc_project`.`pid` = `rep_competence`.`pid`';
         
         $query = $this->db->query($sql);
         $totalRecord = $query->num_rows();
@@ -507,19 +507,19 @@ class Competence_management extends CI_Controller
         $data['title'] = "增加用户";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('test');
+        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
         $this->load->database($etc_privileges);
 
         //生成授权项目多选列表
         $this->db->select('pid,projectname');
-        $query = $this->db->get('sys_project');
+        $query = $this->db->get('etc_project');
         foreach ($query->result_array() as $row)
         {
            $data['project'][] = $row;
         }
         
         //生成组别
-        $sql = 'SELECT DISTINCT `groupid` ,`group` FROM `sys_user` ';
+        $sql = 'SELECT DISTINCT `groupid` ,`group` FROM `etc_user` ';
         $query = $this->db->query( $sql );
         foreach ($query->result_array() as $row)
         {
@@ -543,7 +543,7 @@ class Competence_management extends CI_Controller
         $data['title'] = "增加项目结果";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('test');
+        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
         $this->load->database($etc_privileges);
         
         $groupMap = array(
@@ -564,7 +564,7 @@ class Competence_management extends CI_Controller
                'is_valid' => $this->input->post('is_valid', TRUE)
             );
 
-        if($this->db->insert('sys_user', $project))
+        if($this->db->insert('etc_user', $project))
         {
             $data['insertUserResult'] = '增加用户成功';
         }
@@ -622,13 +622,13 @@ class Competence_management extends CI_Controller
         $data['title'] = "修改用户";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('test');
+        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
         $this->load->database($etc_privileges);
 
         //获取用户信息
         $this->db->select('userid, username, groupid, group, is_valid');
         $this->db->where('userid', $id); 
-        $query = $this->db->get('sys_user');
+        $query = $this->db->get('etc_user');
         foreach ($query->result_array() as $row)
         {
            $data['user'] = $row;
@@ -652,14 +652,14 @@ class Competence_management extends CI_Controller
         
         //获取所有项目
         $this->db->select('pid,projectname');
-        $query = $this->db->get('sys_project');
+        $query = $this->db->get('etc_project');
         foreach ($query->result_array() as $row)
         {
            $data['project'][] = $row;
         }
         
         //生成组别
-        $sql = 'SELECT DISTINCT `groupid` ,`group` FROM `sys_user` ';
+        $sql = 'SELECT DISTINCT `groupid` ,`group` FROM `etc_user` ';
         $query = $this->db->query( $sql );
         foreach ($query->result_array() as $row)
         {
@@ -686,7 +686,7 @@ class Competence_management extends CI_Controller
         $data['title'] = "修改用户结果";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('test');
+        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
         $this->load->database($etc_privileges);
 
         $groupMap = array(
@@ -712,7 +712,7 @@ class Competence_management extends CI_Controller
         }
         
         $this->db->where('userid', $id); 
-        if($this->db->update('sys_user', $project))
+        if($this->db->update('etc_user', $project))
         {
             $data['updateUserResult'] = '修改用户成功';
         }
@@ -768,12 +768,12 @@ class Competence_management extends CI_Controller
         $data['title'] = "删除用户结果";
         
         $this->load->model('rank_database');
-        $etc_privileges = $this->rank_database->select_DB('test');
+        $etc_privileges = $this->rank_database->select_DB('etc_privileges');
         $this->load->database($etc_privileges);
         
         //删除用户信息
         $this->db->where('userid', $id);
-        if($this->db->delete('sys_user'))
+        if($this->db->delete('etc_user'))
         {
             $data['deleteUserResult'] = '删除用户成功';
         }

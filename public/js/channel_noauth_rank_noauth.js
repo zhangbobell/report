@@ -16,6 +16,7 @@ $(document).ready(function(){
     $('#end-date').val(yesterday);
     get_rank();
     
+    $(".switch").bootstrapSwitch();
     
     //选择的时间跨度
     $('#start-date').change(function(){     
@@ -27,7 +28,7 @@ $(document).ready(function(){
     });
     
     //选择项目
-    $('#db-select').change(function(){  
+    $('#project').change(function(){  
         get_rank();
     });
      //选择按照销量或乱价幅度排行
@@ -45,7 +46,7 @@ $(document).ready(function(){
             $.ajax({
 	    url:'channel_noauth/rank_noauth_data',
             type:'POST',
-            data:'startdate='+ $('#start-date').val() + '&enddate='+ $('#end-date').val() +'&db='+$('#db-select').val()+'&sop='+$('#sales-price').bootstrapSwitch('state'),
+            data:'startdate='+ $('#start-date').val() + '&enddate='+ $('#end-date').val() +'&db='+$('#project').val()+'&sop='+$('#sales-price').bootstrapSwitch('state'),
             dataType:'json',
             success:function(json){
                 if(json !== null)

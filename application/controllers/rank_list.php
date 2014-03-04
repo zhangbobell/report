@@ -6,7 +6,7 @@ class Rank_list extends CI_Controller{
 
         $data['title']='分销商销量增长率排行榜';
         $this->load->view('templates/header',$data);
-        $this->load->view('channel_auth/header-add');
+        $this->load->view('channel_noauth/header-add');
         $this->load->view('rank_list/header-add-sales-rate');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
@@ -19,7 +19,7 @@ class Rank_list extends CI_Controller{
 
         $data['title']='分销商销量排行榜';
         $this->load->view('templates/header',$data);
-        $this->load->view('channel_auth/header-add');
+        $this->load->view('channel_noauth/header-add');
         $this->load->view('rank_list/header-add-sales');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
@@ -32,7 +32,7 @@ class Rank_list extends CI_Controller{
 
         $data['title']='产品销量增长率排行榜';
         $this->load->view('templates/header',$data);
-        $this->load->view('channel_auth/header-add');
+        $this->load->view('channel_noauth/header-add');
         $this->load->view('rank_list/header-add-product-sales-rate');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
@@ -45,7 +45,7 @@ class Rank_list extends CI_Controller{
 
         $data['title']='产品销量排行榜';
         $this->load->view('templates/header',$data);
-        $this->load->view('channel_auth/header-add');
+        $this->load->view('channel_noauth/header-add');
         $this->load->view('rank_list/header-add-product-sales');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');

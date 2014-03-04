@@ -2,7 +2,7 @@
     <div class="sidebar pct20 l wh tc bg39 ">
 	<div class="lh48 menu-title">菜 单</div>
 	<ul class="tl ml10 lstn">
-            <li class=""><a href="<?php echo base_url().'admin/' ?>">第一时间*</a></li>
+            <li class=""><a href="<?php echo base_url().'admin/' ?>">第一时间</a></li>
 		<li class=" ml10">授权渠道</li>
                     <li class=" ml10"><a href="channel_auth/channel_scale/">渠道规模</a></li>
                     <li class=" ml10"><a href="channel_auth/channel_quality/">渠道质量</a></li>
@@ -27,6 +27,7 @@
                 <li class=" ml10">KPI查询*</li>
                     <li class=" ml10"><a href="kpi/kpi_weekly">周度KPI及达成进度*</a></li>
                     <li class=" ml10"><a href="kpi/kpi_monthly">月度KPI及达成进度*</a></li>
+                    <li class=" ml10"><a href="kpi/kpi_yearly">年度KPI及达成进度*</a></li>
                 <?php if($this->session->userdata['groupID'] === '0'): ?>
                 <li class=" ml10">系统权限管理</li>   
                     <li class=" ml10"><a href="competence_management/project_management/">项目管理</a></li>

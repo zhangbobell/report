@@ -51,7 +51,7 @@ class channel_noauth extends CI_Controller{
 
         $data['title']='非授权商家名单';
         $this->load->view('templates/header',$data);
-        $this->load->view('channel_auth/header-add');
+        $this->load->view('channel_noauth/header-add');
         $this->load->view('channel_noauth/header_add_rank_noauth');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');

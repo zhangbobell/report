@@ -101,7 +101,7 @@ class Channel_auth extends CI_Controller{
         $etc_privileges = $this->rank_database->select_DB('etc_privileges');
         $this->load->database($etc_privileges);
         
-        $sql='SELECT `projectname`,`dbname` FROM `sys_project` where `is_valid`="1"';
+        $sql='SELECT `projectname`,`dbname` FROM `etc_project` where `is_valid`="1"';
         $query=$this->db->query($sql);
         $data=$query->result_array();
         $html='<select id="project">';
@@ -116,7 +116,7 @@ class Channel_auth extends CI_Controller{
         $this->load->model('rank_database');
         $etc_privileges = $this->rank_database->select_DB('test');
         $this->load->database($etc_privileges);
-        $sql='SELECT `username` FROM sys_user where `is_valid`="1" AND `groupid`=1';
+        $sql='SELECT `username` FROM etc_user where `is_valid`="1" AND `groupid`=1';
         $query=$this->db->query($sql);
         $data=$query->result_array();
         $html='<select id="operator">';

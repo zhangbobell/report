@@ -9,6 +9,8 @@ $(document).ready(function(){
     $('#t1').css('background-color','#ccc');
     get_rate_rank();
     
+    $(".switch").bootstrapSwitch();
+    
     //选择的时间跨度
     $('.r input').click(function(){
         

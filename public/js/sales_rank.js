@@ -9,6 +9,17 @@ $(document).ready(function(){
     $('#t1').css('background-color','#ccc');
     get_rank();
     
+    $(".datepicker").datepicker({
+        dateFormat:"yy-mm-dd",
+        changeYear:true,
+        changeMonth:true,
+        showOn:"both",
+        buttonImage:"public/jquery-ui/calendar.gif",
+        buttonImageOnly:true
+    }).datepicker("setDate","-1d");
+   //开关按钮
+    $(".switch").bootstrapSwitch();
+    
     //选择的时间跨度
     $('.r input').click(function(){
         

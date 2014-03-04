@@ -27,7 +27,7 @@ class Operation extends CI_Controller{
 
         $data['title']='乱价分销商名单';
         $this->load->view('templates/header',$data);
-        $this->load->view('channel_auth/header-add');
+        $this->load->view('channel_noauth/header-add');
         $this->load->view('operation/header_add_list_query');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
@@ -40,7 +40,7 @@ class Operation extends CI_Controller{
 
         $data['title']='0上架分销商名单';
         $this->load->view('templates/header',$data);
-        $this->load->view('channel_auth/header-add');
+        $this->load->view('channel_noauth/header-add');
         $this->load->view('operation/header_add_zero_up');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
@@ -52,7 +52,7 @@ class Operation extends CI_Controller{
 
         $data['title']='分销商搜索';
         $this->load->view('templates/header',$data);
-        $this->load->view('channel_auth/header-add');
+        $this->load->view('channel_noauth/header-add');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
         $this->load->view('operation/seller_search');
@@ -63,7 +63,7 @@ class Operation extends CI_Controller{
 
         $data['title']='分销商搜索';
         $this->load->view('templates/header',$data);
-        $this->load->view('channel_auth/header-add');
+        $this->load->view('channel_noauth/header-add');
         $this->load->view('templates/banner');
         $this->load->view('templates/sidebar');
         $this->load->view('operation/product_search');
