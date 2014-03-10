@@ -23,7 +23,7 @@
                 <p class="update">2014.3.4更新：
                     <ol class="update">
                         <li>开放注册，请大家点击<a href="main/register">这里</a>注册</li>
-                        <li>第一时间 板块上线，数据准确，欢迎测试。</li>
+                        <li>旺旺记录上传模块上线，可上传txt格式聊天记录，欢迎测试。</li>
                     </ol>
                 </p>
             </form>
