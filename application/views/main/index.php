@@ -20,7 +20,7 @@
                 <div class="captcha"><div id="captcha-image"></div> 看不清？<a id="reload-captcha" href="javascript:void(0);">换一张</a></div>
 		<p><div id="login_info"></div>
 		<input id="submit" type="submit" value="登  录" class="login-btn"/></p>
-                <p class="update">2014.3.4更新：
+                <p class="update">2014.3.10更新：
                     <ol class="update">
                         <li>开放注册，请大家点击<a href="main/register">这里</a>注册</li>
                         <li>旺旺记录上传模块上线，可上传txt格式聊天记录，欢迎测试。</li>
