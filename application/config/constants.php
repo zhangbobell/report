@@ -20,6 +20,7 @@ define('DIR_WRITE_MODE', 0777);
 define('CSS_DIR','public/css');
 define('IMG_DIR','public/images');
 define('JS_DIR','public/js');
+define('UPLOAD_DIR','public/upload');
 define('PUB_DIR','public');
 
 /*

@@ -110,12 +110,39 @@
                    'logged_in' => TRUE
                );
                 $this->session->set_userdata($userdata);
+                
+                //存入登录日志rep_log
+                $sql="INSERT INTO `rep_log` (`createtime`, `username`, `title`, `content`) "
+                        . "VALUES ('". date("Y-m-d H:i:s") ."', "
+                        . "'". $this->session->userdata('username') ."',"
+                        . "'login',"
+                        . "'". $this->input->ip_address() ."')";
+                if(!($query = $this->db->query($sql)))
+                {
+                        $this->db->_error_message();
+                }
             }
         }
         
         public function logout()
         {
             $page = 'logout';
+            
+            $this->load->model('rank_database');
+            //现在使用的是90数据库里面的test库作为etc_privileges的测试库
+            $etc_privileges = $this->rank_database->select_DB('etc_privileges');
+            $this->load->database($etc_privileges);
+            //存入日志
+            $sql="INSERT INTO `rep_log` (`createtime`, `username`, `title`, `content`) "
+                        . "VALUES ('". date("Y-m-d H:i:s") ."', "
+                        . "'". $this->session->userdata('username') ."',"
+                        . "'logout',"
+                        . "'". $this->input->ip_address() ."')";
+            if(!($query = $this->db->query($sql)))
+            {
+                    $this->db->_error_message();
+            }
+                
             $this->session->sess_destroy();
             $data['title'] = '注销成功';
             $this->load->view('main/'.$page, $data);

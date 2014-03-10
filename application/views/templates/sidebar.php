@@ -33,6 +33,7 @@
                     <li class=" ml10"><a href="competence_management/project_management/">项目管理</a></li>
                     <li class=" ml10"><a href="competence_management/user_management/">用户管理</a></li>
                 <?php endif; ?>
+                    <li class=" ml10"><a href="upload/index">旺旺记录上传</a></li>
                 <li class=" ml10"><a href="feedback/index">意见反馈</a></li>
 	</ul>
 </div>

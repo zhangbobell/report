@@ -128,7 +128,8 @@ and open the template in the editor.
 }
 a.del 
 { 
-    background-image:url(../images/del.gif)
+    background-image:url(../images/del.gif);
+    cursor: pointer;
 }
 a.edit 
 { 
@@ -308,4 +309,12 @@ a.ico:hover
     line-height: 24px;
     margin-left: 10px;
 }
-
+.upload-info
+{
+    font-size: 14px;
+    font-family: '微软雅黑','黑体';
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color:#f00;  
+}

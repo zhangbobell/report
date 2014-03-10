@@ -63,39 +63,41 @@ $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
-//三枪项目
-$db['db_sanqiang']['hostname'] = '127.0.0.1';
-$db['db_sanqiang']['username'] = 'webuser';
-$db['db_sanqiang']['password'] = 'password';
-$db['db_sanqiang']['database'] = 'db_sanqiang';
-$db['db_sanqiang']['dbdriver'] = 'mysql';
-$db['db_sanqiang']['dbprefix'] = '';
-$db['db_sanqiang']['pconnect'] = TRUE;
-$db['db_sanqiang']['db_debug'] = TRUE;
-$db['db_sanqiang']['cache_on'] = FALSE;
-$db['db_sanqiang']['cachedir'] = '';
-$db['db_sanqiang']['char_set'] = 'utf8';
-$db['db_sanqiang']['dbcollat'] = 'utf8_general_ci';
-$db['db_sanqiang']['swap_pre'] = '';
-$db['db_sanqiang']['autoinit'] = TRUE;
-$db['db_sanqiang']['stricton'] = FALSE;
 
-//汤臣倍健项目
-$db['db_tcbj']['hostname'] = '127.0.0.1';
-$db['db_tcbj']['username'] = 'webuser';
-$db['db_tcbj']['password'] = 'password';
-$db['db_tcbj']['database'] = 'db_tcbj';
-$db['db_tcbj']['dbdriver'] = 'mysql';
-$db['db_tcbj']['dbprefix'] = '';
-$db['db_tcbj']['pconnect'] = TRUE;
-$db['db_tcbj']['db_debug'] = TRUE;
-$db['db_tcbj']['cache_on'] = FALSE;
-$db['db_tcbj']['cachedir'] = '';
-$db['db_tcbj']['char_set'] = 'utf8';
-$db['db_tcbj']['dbcollat'] = 'utf8_general_ci';
-$db['db_tcbj']['swap_pre'] = '';
-$db['db_tcbj']['autoinit'] = TRUE;
-$db['db_tcbj']['stricton'] = FALSE;
+//数据仓库管理库
+$etc_privileges['hostname'] = '192.168.1.90';
+$etc_privileges['username'] = 'data';
+$etc_privileges['password'] = 'data2123';
+$etc_privileges['database'] = 'etc_privileges';
+$etc_privileges['dbdriver'] = 'mysql';
+$etc_privileges['dbprefix'] = '';
+$etc_privileges['pconnect'] = FALSE;
+$etc_privileges['db_debug'] = TRUE;
+$etc_privileges['cache_on'] = FALSE;
+$etc_privileges['cachedir'] = '';
+$etc_privileges['char_set'] = 'utf8';
+$etc_privileges['dbcollat'] = 'utf8_general_ci';
+$etc_privileges['swap_pre'] = '';
+$etc_privileges['autoinit'] = TRUE;
+$etc_privileges['stricton'] = FALSE;
+
+
+//test库
+$test['hostname'] = '192.168.1.90';
+$test['username'] = 'data';
+$test['password'] = 'data2123';
+$test['database'] = 'test';
+$test['dbdriver'] = 'mysql';
+$test['dbprefix'] = '';
+$test['pconnect'] = FALSE;
+$test['db_debug'] = TRUE;
+$test['cache_on'] = FALSE;
+$test['cachedir'] = '';
+$test['char_set'] = 'utf8';
+$test['dbcollat'] = 'utf8_general_ci';
+$test['swap_pre'] = '';
+$test['autoinit'] = TRUE;
+$test['stricton'] = FALSE;
 
 $db['etc_privileges']['hostname'] = '127.0.0.1';
 $db['etc_privileges']['username'] = 'webuser';
