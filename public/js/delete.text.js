@@ -16,6 +16,7 @@ function deleteText(fileName, fileHash)
                 else
                 {
                     $('#upload-info').text("删除失败");
+                    loadUploadText();
                     $('#upload-info').fadeOut("2000");
                 }
             }

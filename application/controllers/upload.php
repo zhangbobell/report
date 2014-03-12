@@ -226,7 +226,7 @@ class Upload extends CI_Controller
                     
                     if(strlen($recordtime)!=19)//时间不合法的情况，聊天记录中有三个以上空格
                     {
-                        $this->appendContent();
+                        $this->appendContent($arr, $i);
                         continue;
                     }
                     
@@ -257,7 +257,7 @@ class Upload extends CI_Controller
                     
                     if(strlen($recordtime)!=19)//时间不合法的情况，聊天记录中有三个以上空格
                     {
-                        $this->appendContent();
+                        $this->appendContent($arr, $i);
                         continue;
                     }
                     
@@ -349,7 +349,7 @@ class Upload extends CI_Controller
         echo json_encode($data);
     }
     
-    public function appendContent()
+    public function appendContent($arr, $i)
     {
         //6. 上一条记录的补充
         $sql="SELECT LAST_INSERT_ID() as `id`";
