@@ -3,6 +3,9 @@
  * Author : ibm   Email: zhangbobell@163.com
  * createTime : 2014-1-15
  */
+var jsonRank;
+var rankCurFlag=true;
+
 $(document).ready(function(){
     
     //默认加载昨天的
@@ -40,6 +43,16 @@ $(document).ready(function(){
    
   });
   
+  $(document).on("click","#curSalesNum",function(){
+    if(rankCurFlag)
+        jsonRank.sort(sortSalesNum);
+    else
+        jsonRank.sort(resortSalesNum);
+    
+    rankCurFlag=!rankCurFlag;
+    output(jsonRank);
+});
+  
   function get_rank(){
       
             //显示正在加载 
@@ -60,29 +73,39 @@ $(document).ready(function(){
             success:function(json){
                 if(json !== null)
                 {
-                    var html='<table class="project-table">\n\
-                                <tr>\n\
-                                <th>销量</th>\n\
-                                <th>旺旺昵称</th>\n\
-                                <th>店铺ID</th>\n\
-                                <th>运营人员</th>\n\
-                                </tr>';
-                    for(var i = 0; i < eval(json).length; i++)
-                    {
-                        html += '<tr><td>' + json[i]['total'] + '</td>\n\
-                                <td>' + json[i]['sellernick'] + '</td>\n\
-                                <td>' + json[i]['shopid'] + '</td>\n\
-                                <td>' + json[i]['account'] + '</td>\n\
-                                </tr>' ;
-                    }
-                    html += '</table>';
-                    $('#rank').html(html);
+                    jsonRank=json;
+                    jsonRank.sort(sortSalesNum);
+                    output(jsonRank);
             }
             else
                     $('#rank').html("<h2>&nbsp;&nbsp;&nbsp;&nbsp;没有找到符合条件的数据</h2>");
             }
 	  });//ajax函数结束
           }
+          
+function output(jsonRank)
+{
+    var html='<table class="project-table">\n\
+                <tr>\n\
+                <th><a href="javascript:void(0);" id="curSalesNum" title="点击排序">销量</a></th>\n\
+                <th>旺旺昵称</th>\n\
+                </tr>';
+    for(var i = 0; i < (jsonRank.length > 20 ? 20:jsonRank.length); i++)
+    {
+        html += '<tr><td>' + jsonRank[i]['salesNum'] + '</td>\n\
+                <td>' + jsonRank[i]['sellernick'] + '<a target="_blank" href="http://www.taobao.com/webww/ww.php?ver=3&touid=' + jsonRank[i]['sellernick'] + '&siteid=cntaobao&status=2&charset=utf-8"><img border="0" src="http://amos.alicdn.com/online.aw?v=2&uid=' + jsonRank[i]['sellernick'] + '&site=cntaobao&s=2&charset=utf-8" alt="点这里给我发消息" /></a></td>\n\
+                </tr>' ;
+    }
+    html += '</table>';
+    $('#rank').html(html);
+}
   
-
+function sortSalesNum(a, b)
+{
+    return b.salesNum - a.salesNum;
+}
+function resortSalesNum(a, b)
+{
+    return a.salesNum - b.salesNum;
+}
 

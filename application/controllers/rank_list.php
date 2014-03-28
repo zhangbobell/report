@@ -86,6 +86,7 @@ class Rank_list extends CI_Controller{
     //分销商销量增长率排行榜
     public function sales_rate_rank_data( )
     {
+        header('Content-Type: text/html; charset=utf-8');
         $time = $this->input->post('time', TRUE);
         $db = $this->input->post('db', TRUE);
         $isZC = $this->input->post('is_zc',TRUE);
@@ -93,81 +94,42 @@ class Rank_list extends CI_Controller{
         $db_sanqiang = $this->rank_database->select_DB($db);
         $this->load->database($db_sanqiang);
         
-        $last_last = "date_sub(curdate(), interval 1 day)";
         $last_prior = "date_sub(curdate(), interval ". $time ." day)";
-        $prior_last = "date_sub(curdate(), interval ". ($time+1) ." day)";
         $prior_prior = "date_sub(curdate(), interval ". ($time*2) ." day)";
-
         
-            if($time != '1')
-            {
-                $sql = "select `diff`, rawRank.`sellernick`, `meta_cooperation`.`shopid`, rawRank.`total_a`, rawRank.`total_b`, `meta_cooperation`.`account` from(
-                        select (a.`total`-b.`total`)/b.`total` as diff, a.`sellernick`, a.`total` as `total_a`, b.`total` as `total_b` 
-                        from
-                        (SELECT if(`createtime` between ". $last_prior ." and ". $last_last .",'1','0') as `idx`, `sellernick`, sum(`number`)
-                        as `total` 
-                        from `meta_order` 
-                        where `createtime` between ". $last_prior ." and ". $last_last ."
-                        or `createtime` between ". $prior_prior ." and ". $prior_last ."
-                        and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
-                        group by `sellernick`, `idx`) a, 
-                        (SELECT if(`createtime` between ". $last_prior ." and ". $last_last .",'1','0') as `idx`, `sellernick`, sum(`number`)
-                        as `total` 
-                        from `meta_order` 
-                        where `createtime` between ". $last_prior ." and ". $last_last ."
-                        or `createtime` between ". $prior_prior ." and ". $prior_last ."
-                        and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
-                        group by `sellernick`, `idx`) b 
-                        where a.`idx`='1' and b.`idx`='0' and a.`sellernick`=b.`sellernick`
-                        order by `diff` DESC
-                        LIMIT 20)
-                        as rawRank
-                        left join
-                        `meta_cooperation`
-                        on rawRank.`sellernick` = `meta_cooperation`.`sellernick`";
-            }
+        $data;
+        $sql = "SELECT `sellernick`, 
+                sum(if(`created`>=". $last_prior .",`number`,0)) as `curSalesNum`, 
+                sum(if(`created`<". $last_prior .",`number`,0)) as `lastSalesNum` "
+                . "FROM `meta_order` "
+                . "WHERE `created`>=". $prior_prior ."  
+                and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%') 
+                and `sellernick` is not NULL";
+        
+        if($isZC == 'true')
+        {
+            $sql .= " and `sellernick` not in (select `sellernick` from `up_cooperation_register`)"; 
+        }
+        
+        $sql.=" GROUP BY `sellernick`";
+        
+        $query=  $this->db->query($sql);
+        foreach($query->result_array() as $key => $item)
+        {
+            $data[$key]->curSalesNum=$item['curSalesNum'];
+            $data[$key]->lastSalesNum=$item['lastSalesNum'];
+            $data[$key]->sellernick=$item['sellernick'];
+            if($item['lastSalesNum']!=0)
+                $data[$key]->sales_rate=($item['curSalesNum']-$item['lastSalesNum'])/$item['lastSalesNum'];
             else
-            {
-                $sql = "select `diff`, rawRank.`sellernick`, `meta_cooperation`.`shopid`, rawRank.`total_a`, rawRank.`total_b`, `meta_cooperation`.`account` from(
-                        select (a.`total`-b.`total`)/b.`total` as diff, a.`sellernick`, a.`total` as `total_a`, b.`total` as `total_b` 
-                        from
-                        (SELECT if(date(`createtime`) = ". $last_last .",'1','0') as `idx`, `sellernick`, sum(`number`)
-                        as `total` 
-                        from `meta_order` 
-                        where date(`createtime`) = ". $last_last ."
-                        or date(`createtime`) = ". $prior_last ."
-                        and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
-                        group by `sellernick`, `idx`) a, 
-                        (SELECT if(date(`createtime`) = ". $last_last .",'1','0') as `idx`, `sellernick`, sum(`number`)
-                        as `total` 
-                        from `meta_order` 
-                        where date(`createtime`) = ". $last_last ."
-                        or date(`createtime`) = ". $prior_last ."
-                        and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
-                        group by `sellernick`, `idx`) b 
-                        where a.`idx`='1' and b.`idx`='0' and a.`sellernick`=b.`sellernick`
-                        order by `diff` DESC
-                        LIMIT 20)
-                        as rawRank
-                        left join
-                        `meta_cooperation`
-                        on rawRank.`sellernick` = `meta_cooperation`.`sellernick`";
-            }
-            
-            //如果是追灿的
-            if($isZC == 'true')
-            {
-                $sql .= " where rawRank.`sellernick` not in (select `sellernick` from `up_cooperation_register`)"; 
-            }
-            
-            $query = $this->db->query($sql);
-            $rank=null;
-            foreach($query->result_array() as $item)
-            {
-                $rank[] = $item;
-            }
-            echo json_encode($rank);        
+                $data[$key]->sales_rate=NULL;
+        }
+        //var_dump($data);
+        echo json_encode($data);
+         
     }
+    
+ 
     
     //分销商销量排行榜
      public function sales_rank_data( )
@@ -182,46 +144,28 @@ class Rank_list extends CI_Controller{
         $last_last = "date_sub(curdate(), interval 1 day)";
         $last_prior = "date_sub(curdate(), interval ". $time ." day)";
      
-        if($time != '1')
-        {
-            $sql = "select rawRank.`total`, rawRank.`sellernick`, `meta_cooperation`.`shopid`, `meta_cooperation`.`account` 
-                    from(SELECT `sellernick`, sum(`number`) as `total` 
-                    from `meta_order` 
-                    where `createtime` between ". $last_prior ." and ". $last_last ." 
-                    and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
-                    group by `sellernick` order by `total` DESC LIMIT 20
-                    ) as rawRank
-                    left join
-                    `meta_cooperation`
-                    on rawRank.`sellernick` = `meta_cooperation`.`sellernick`";
-        }
-        else
-        {
-            $sql = "select rawRank.`total`, rawRank.`sellernick`, `meta_cooperation`.`shopid`, `meta_cooperation`.`account` 
-                    from(SELECT `sellernick`, sum(`number`) as `total` 
-                    from `meta_order` 
-                    where date(`createtime`) = ". $last_last ." 
-                    and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
-                    group by `sellernick` order by `total` DESC LIMIT 20
-                    ) as rawRank
-                    left join
-                    `meta_cooperation`
-                    on rawRank.`sellernick` = `meta_cooperation`.`sellernick`";
-        }
-
-        //如果是追灿的
+        $data;
+        $sql = "SELECT `sellernick`,
+                sum(if(`created`<=". $last_last .",`number`,0)) as `salesNum` "
+                . "FROM `meta_order` "
+                . "WHERE `created`>=". $last_prior ."  
+                and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%') 
+                and `sellernick` is not NULL";
+        
         if($isZC == 'true')
         {
-            $sql .= " where rawRank.`sellernick` not in (select `sellernick` from `up_cooperation_register`)"; 
+            $sql .= " and `sellernick` not in (select `sellernick` from `up_cooperation_register`)"; 
         }
-
-        $query = $this->db->query($sql);
-        $rank=null;
-        foreach($query->result_array() as $item)
+        
+        $sql.=" GROUP BY `sellernick`";
+        
+        $query=  $this->db->query($sql);
+        foreach($query->result_array() as $key => $item)
         {
-            $rank[] = $item;
+            $data[$key]->salesNum=$item['salesNum'];
+            $data[$key]->sellernick=$item['sellernick'];
         }
-        echo json_encode($rank);        
+        echo json_encode($data);      
     }
     
     //产品销量增长率排行榜
@@ -233,64 +177,34 @@ class Rank_list extends CI_Controller{
         $db_sanqiang = $this->rank_database->select_DB($db);
         $this->load->database($db_sanqiang);
         
-        $last_last = "date_sub(curdate(), interval 1 day)";
         $last_prior = "date_sub(curdate(), interval ". $time ." day)";
-        $prior_last = "date_sub(curdate(), interval ". ($time+1) ." day)";
         $prior_prior = "date_sub(curdate(), interval ". ($time*2) ." day)";
-
         
-            if($time != '1')
-            {
-                $sql = "select (a.`total`-b.`total`)/b.`total` as diff, a.`price`, a.`skuid`, a.`total` as `total_a`, b.`total` as `total_b` 
-                        from
-                        (SELECT if(`createtime` between ". $last_prior ." and ". $last_last .",'1','0') as `idx`, `skuid`, `price`, sum(`number`)
-                        as `total` 
-                        from `meta_order` 
-                        where `createtime` between ". $last_prior ." and ". $last_last ."
-                        or `createtime` between ". $prior_prior ." and ". $prior_last ."
-                        and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
-                        group by `skuid`, `idx`) a, 
-                        (SELECT if(`createtime` between ". $last_prior ." and ". $last_last .",'1','0') as `idx`, `skuid`, `price`, sum(`number`)
-                        as `total` 
-                        from `meta_order` 
-                        where `createtime` between ". $last_prior ." and ". $last_last ."
-                        or `createtime` between ". $prior_prior ." and ". $prior_last ."
-                        and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
-                        group by `skuid`, `idx`) b 
-                        where a.`idx`='1' and b.`idx`='0' and a.`skuid`=b.`skuid`
-                        order by `diff` DESC
-                        LIMIT 20";
-            }
+        $data;
+        $sql = "SELECT `itemnum`,`price`, 
+                sum(if(`created`>=". $last_prior .",`number`,0)) as `curSalesNum`, 
+                sum(if(`created`<". $last_prior .",`number`,0)) as `lastSalesNum` "
+                . "FROM `meta_order` "
+                . "WHERE `created`>=". $prior_prior ."  
+                and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%') 
+                and `sellernick` is not NULL";
+               
+        $sql.=" GROUP BY `itemnum`";
+        
+        $query=  $this->db->query($sql);
+        foreach($query->result_array() as $key => $item)
+        {
+            $data[$key]->curSalesNum=$item['curSalesNum'];
+            $data[$key]->lastSalesNum=$item['lastSalesNum'];
+            $data[$key]->price=$item['price'];
+            $data[$key]->itemnum=$item['itemnum'];
+            if($item['lastSalesNum']!=0)
+                $data[$key]->sales_rate=($item['curSalesNum']-$item['lastSalesNum'])/$item['lastSalesNum'];
             else
-            {
-                $sql = "select (a.`total`-b.`total`)/b.`total` as diff, a.`price`, a.`skuid`, a.`total` as `total_a`, b.`total` as `total_b`  
-                        from
-                        (SELECT if(date(`createtime`) = ". $last_last .",'1','0') as `idx`, `skuid`, `price`, sum(`number`)
-                        as `total` 
-                        from `meta_order` 
-                        where date(`createtime`) = ". $last_last ."
-                        or date(`createtime`) = ". $prior_last ."
-                        and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
-                        group by `skuid`, `idx`) a, 
-                        (SELECT if(date(`createtime`) = ". $last_last .",'1','0') as `idx`, `skuid`, `price`, sum(`number`)
-                        as `total` 
-                        from `meta_order` 
-                        where date(`createtime`) = ". $last_last ."
-                        or date(`createtime`) = ". $prior_last ."
-                        and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
-                        group by `skuid`, `idx`) b 
-                        where a.`idx`='1' and b.`idx`='0' and a.`skuid`=b.`skuid`
-                        order by `diff` DESC
-                        LIMIT 20";
-            }
-            
-            $query = $this->db->query($sql);
-            $rank=null;
-            foreach($query->result_array() as $item)
-            {
-                $rank[] = $item;
-            }
-            echo json_encode($rank);        
+                $data[$key]->sales_rate=NULL;
+        }
+        //var_dump($data);
+        echo json_encode($data);      
     }
     
     //产品销量排行榜
@@ -305,30 +219,24 @@ class Rank_list extends CI_Controller{
         $last_last = "date_sub(curdate(), interval 1 day)";
         $last_prior = "date_sub(curdate(), interval ". $time ." day)";
      
-        if($time != '1')
+        $data;
+        $sql = "SELECT `itemnum`,`price`, 
+                sum(if(`created`<=". $last_last .",`number`,0)) as `salesNum` "
+                . "FROM `meta_order` "
+                . "WHERE `created`>=". $last_prior ."  
+                and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%') 
+                and `sellernick` is not NULL";
+        
+        $sql.=" GROUP BY `itemnum`";
+        
+        $query=  $this->db->query($sql);
+        foreach($query->result_array() as $key => $item)
         {
-            $sql = "SELECT `skuid`, `price`, sum(`number`) as `total` 
-                    from `meta_order` 
-                    where `createtime` between ". $last_prior ." and ". $last_last ." 
-                    and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
-                    group by `skuid` order by `total` DESC LIMIT 20";
+            $data[$key]->salesNum=$item['salesNum'];
+            $data[$key]->itemnum=$item['itemnum'];
+            $data[$key]->price=$item['price'];
         }
-        else
-        {
-            $sql = "SELECT `skuid`, `price`, sum(`number`) as `total` 
-                    from `meta_order` 
-                    where date(`createtime`) = ". $last_last ." 
-                    and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
-                    group by `skuid` order by `total` DESC LIMIT 20";
-        }
-
-        $query = $this->db->query($sql);
-        $rank=null;
-        foreach($query->result_array() as $item)
-        {
-            $rank[] = $item;
-        }
-        echo json_encode($rank);        
+        echo json_encode($data);         
     }
 
 }

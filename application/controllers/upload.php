@@ -230,9 +230,9 @@ class Upload extends CI_Controller
                         continue;
                     }
                     
-                    $nick = explode(':', $result[2]);//对昵称字段进行处理，取括号前一段
-                    $nick = explode('(', $nick[0]);
-                    
+                    $result[2] =  substr($result[2], 0, -1);//去掉结尾的冒号
+                    $nick = explode('(', $result[2]);//昵称格式卖家版和买家版不一样
+                                       
                     $sql = "INSERT INTO `chart_record` "
                     . "(`blocknum`, `updatetime`, `nick`, `recordtime`, `recordtype`,`content`, `linenum`, `src`) "
                     . "VALUES "
@@ -336,6 +336,9 @@ class Upload extends CI_Controller
         $this->load->database($etc_privileges);
         
         $sql = "SELECT * FROM `rep_log` WHERE `username`='". $this->session->userdata('username') ."' AND `title`='upload' AND `remark` not in (SELECT `remark` FROM `rep_log` WHERE `title`='delete')";
+        
+        if($this->session->userdata['groupID'] === '0')//如果是管理员
+            $sql = "SELECT * FROM `rep_log` WHERE `title`='upload' AND `remark` not in (SELECT `remark` FROM `rep_log` WHERE `title`='delete')";
         $query = $this->db->query($sql);
         foreach($query->result_array() as $item )
         {

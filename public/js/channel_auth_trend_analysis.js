@@ -3,7 +3,16 @@ $(document).ready(function(){
     $.datepicker.setDefaults(
         $.datepicker.regional["zh-CN"]
     );
-    $(".datepicker").datepicker({
+    $("#start-date").datepicker({
+        dateFormat:"yy-mm-dd",
+        changeYear:true,
+        changeMonth:true,
+        showOn:"both",
+        buttonImage:"public/jquery-ui/calendar.gif",
+        buttonImageOnly:true
+    }).datepicker("setDate","-30d");
+    
+    $("#end-date").datepicker({
         dateFormat:"yy-mm-dd",
         changeYear:true,
         changeMonth:true,
@@ -24,17 +33,17 @@ $(document).ready(function(){
 data=null;
 function display_result(){
     project=$("#project").val();
-    operator=$("#operator").val();
+    //operator=$("#operator").val();
     startDate=$("#start-date").val();
     endDate=$("#end-date").val();
     zhuicanAll=$("#zhuican-all").bootstrapSwitch("state")?"zhuican":"all";
-     $("#order_sales,#seller_num").html("<img id=\"loading-gif\" src=\"public/images/loading.gif\" />");
+     $("#order_sales,#seller_num,#seller-quality").html("<img id=\"loading-gif\" src=\"public/images/loading.gif\" />");
     $.ajax({
         url:"channel_auth/data_channel_auth_trend_analysis",
         type:"post",
         async:false,
         dateType:"json",
-        data:{"project":project,"operator":operator,"startDate":startDate,"endDate":endDate,"zhuicanAll":zhuicanAll}
+        data:{"project":project,/*"operator":operator,*/"startDate":startDate,"endDate":endDate,"zhuicanAll":zhuicanAll}
     }).done(function(d){
         data=$.parseJSON(d);
         if(data ==null){
@@ -50,6 +59,9 @@ function display_result(){
                 rotation:-30
             }
         },
+        credits: { 
+                        enabled: false   //不显示LOGO 
+                    },
         yAxis:{
 		lineWidth:1,
                 min:0,
@@ -65,6 +77,9 @@ function display_result(){
         xAxis:{
             categories:data['order_fee'].createtime
         },
+        credits: { 
+                        enabled: false   //不显示LOGO 
+                    },
         yAxis:[
             {
                 title:{
@@ -94,10 +109,43 @@ function display_result(){
         xAxis:{
             categories:data['seller_num'].startdate
         },
+        credits: { 
+                        enabled: false   //不显示LOGO 
+                    },
         series:[
             {
-                name:"销售额",
+                name:"分销商数量",
                 data:data['seller_num'].seller_num
+            }
+        ]
+        
+    });
+    //===================================  第三部分:分销商质量 =========================================================
+    $("#seller-quality").highcharts({
+        xAxis:{
+            categories:data['up_rate'].createtime
+        },
+        
+        tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                            '<td style="padding:0"><b>{point.y:.2f}%</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+        },
+        yAxis:{
+		lineWidth:1,
+                min:0,
+                max:100
+        },
+        credits: { 
+                        enabled: false   //不显示LOGO 
+                    },
+        series:[
+            {
+                name:"上架率(%)",
+                data:data['up_rate'].up_rate
             }
         ]
         

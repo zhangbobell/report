@@ -205,7 +205,7 @@ class Channel_auth extends CI_Controller{
     public function data_channel_auth_trend_analysis(){
         //获取AJAX发送来的数据
         $project=$_POST['project'];
-        $operator=$_POST['operator'];
+        //$operator=$_POST['operator'];
         $startDate=$_POST['startDate'];
         $endDate=$_POST['endDate'];
         $zhuicanAll=$_POST['zhuicanAll'];
@@ -214,7 +214,7 @@ class Channel_auth extends CI_Controller{
         $db=$this->rank_database->select_DB($project);
         $this->load->database($db);
         //失败订单排除规则
-        $sql="select name,rule".
+        /*$sql="select name,rule".
             " from etc_rule".
             " where name='ORDER_FAILED'";      
         $query=$this->db->query($sql);
@@ -256,9 +256,82 @@ class Channel_auth extends CI_Controller{
         foreach($this->db->query($sql)->result_array() as $value){
             $data['seller_num']['startdate'][]=$value['startdate'];
             $data['seller_num']['seller_num'][]=(int)$value['seller_num'];
+        }*/
+        
+        //-------------------------------- 第一和第二部分 : 分销商销售额 和分销商数量 --------------------------------------------------
+        $sql;
+        $sql2;
+        $data=array();//用于接收所有数据
+        $n=4;//展示4天的数据
+        if($zhuicanAll!='all')
+        {
+            $sql = "SELECT `updatetime`, `order_sales_fee_ex` as `sales`, `order_sales_num_ex` as `sales_num`, `seller_num_ex` as `seller_num` FROM `kpi_supplier_daily` WHERE `updatetime` between '". $startDate ."' and '". $endDate ."' order by `updatetime`";
+            
         }
-        echo json_encode($data);
+        else
+        {
+            $sql = "SELECT `updatetime`, `order_sales_fee` as `sales`, `order_sales_num` as `sales_num`, `seller_num` as `seller_num` FROM `kpi_supplier_daily` WHERE `updatetime` between '". $startDate ."' and '". $endDate ."' order by `updatetime`";
         }
+        $query = $this->db->query($sql);
+        foreach($query->result_array() as $value){
+            $data['order_fee']['createtime'][]=$value['updatetime'];
+            $data['order_fee']['order_fee'][]=(float)$value['sales'];
+            $data['order_fee']['order_num'][]=(int)$value['sales_num'];
+            $data['seller_num']['startdate'][]=$value['updatetime'];
+            $data['seller_num']['seller_num'][]=(int)$value['seller_num'];
+        }
+        
+        //-------------------------------- 第三部分 : 上架率  -----------------------------------------------------
+        if($zhuicanAll!='all')
+        {
+            //先查询上架商家数（追灿招募）
+            $sql="SELECT `updatetime`, count(`sellernick`) AS `up_num` FROM `status_up_shop` 
+                WHERE `up_number` >0 AND `sellernick` in 
+                (SELECT `sellernick` FROM `meta_cooperation` WHERE `is_zhuican` = '1') 
+                AND `updatetime` between '". $startDate ."' and '". $endDate ."'
+                GROUP BY `updatetime`  order by `updatetime`";
+            //在查询所有（包括未上架）商家数（追灿招募）
+            $sql2="SELECT `updatetime`, count(`sellernick`) AS `up_num` FROM `status_up_shop` 
+                WHERE `sellernick` in 
+                (SELECT `sellernick` FROM `meta_cooperation` WHERE `is_zhuican` = '1') 
+                AND `updatetime` between '". $startDate ."' and '". $endDate ."'
+                GROUP BY `updatetime` ORDER BY `updatetime`";
+            
+        }
+        else
+        {
+            //查询上架商家数（全部）
+            $sql="SELECT `updatetime`, count(`sellernick`) AS `up_num` FROM `status_up_shop` 
+                WHERE `up_number` >0 
+                AND `updatetime` between '". $startDate ."' and '". $endDate ."'
+                GROUP BY `updatetime` 
+                ORDER BY `updatetime`";
+            //查询所有（包括未上架）商家数（全部）
+            $sql2="SELECT `updatetime`, count(`sellernick`) AS `up_num` FROM `status_up_shop` "
+                    . "WHERE `updatetime` between '". $startDate ."' and '". $endDate ."'"
+                    . "GROUP BY `updatetime` ORDER BY `updatetime`";
+        }
+        
+        $query = $this->db->query($sql);
+        foreach($query->result_array() as $value){
+            $data['up_rate']['createtime'][]=$value['updatetime'];
+            $data['up_rate']['up_rate'][]=(float)$value['up_num'];
+        }
+        
+        $query = $this->db->query($sql2);
+        $i=0;
+        foreach($query->result_array() as $item)
+        {
+            $data['up_rate']['up_rate'][$i] /= $item['up_num'];
+            //转换为百分数
+            $data['up_rate']['up_rate'][$i] *=100;
+            $i++;
+        }
+        
+        //echo json_encode($data);
+        echo json_encode($data, JSON_NUMERIC_CHECK );
+        
+        //echo json_encode($data);
         
     }
 }
