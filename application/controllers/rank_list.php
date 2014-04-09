@@ -55,14 +55,14 @@ class Rank_list extends CI_Controller{
     
     public function seller_num(){
         $this->load->database('mysqli://data:data2123@192.168.1.90/db_sanqiang');
-        $sql='select createtime,number from meta_order limit 10';
+        $sql='select createtime,number from status_order limit 10';
         echo $sql;
         $query=$this->db->query($sql);
         var_dump($query->result());
     }
     public function seller_num_rate(){
          $this->load->database('mysqli://data:data2123@192.168.1.90/db_sanqiang');
-        $sql='select sellernick,sum(number) as sum_number from meta_order where createtime between "2013-12-01" and "2013-12-31" group by sellernick order by sum_number desc';
+        $sql='select sellernick,sum(number) as sum_number from status_order where createtime between "2013-12-01" and "2013-12-31" group by sellernick order by sum_number desc';
         echo $sql;
         $query=$this->db->query($sql);
         var_dump($query->result());
@@ -70,14 +70,14 @@ class Rank_list extends CI_Controller{
     
      public function product_num(){
         $this->load->database('mysqli://data:data2123@192.168.1.90/db_sanqiang');
-        $sql='select createtime,sku,number from meta_order limit 10';
+        $sql='select createtime,sku,number from status_order limit 10';
         echo $sql;
         $query=$this->db->query($sql);
         var_dump($query->result());
     }
      public function product_num_rate(){
          $this->load->database('mysqli://data:data2123@192.168.1.90/db_sanqiang');
-        $sql='select sku,sum(number) as sum_number from meta_order where createtime between "2013-12-01" and "2013-12-31" group by sku order by sum_number desc';
+        $sql='select sku,sum(number) as sum_number from status_order where createtime between "2013-12-01" and "2013-12-31" group by sku order by sum_number desc';
         echo $sql;
         $query=$this->db->query($sql);
         var_dump($query->result());
@@ -101,7 +101,7 @@ class Rank_list extends CI_Controller{
         $sql = "SELECT `sellernick`, 
                 sum(if(`created`>=". $last_prior .",`number`,0)) as `curSalesNum`, 
                 sum(if(`created`<". $last_prior .",`number`,0)) as `lastSalesNum` "
-                . "FROM `meta_order` "
+                . "FROM `status_order` "
                 . "WHERE `created`>=". $prior_prior ."  
                 and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%') 
                 and `sellernick` is not NULL";
@@ -147,7 +147,7 @@ class Rank_list extends CI_Controller{
         $data;
         $sql = "SELECT `sellernick`,
                 sum(if(`created`<=". $last_last .",`number`,0)) as `salesNum` "
-                . "FROM `meta_order` "
+                . "FROM `status_order` "
                 . "WHERE `created`>=". $last_prior ."  
                 and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%') 
                 and `sellernick` is not NULL";
@@ -184,7 +184,7 @@ class Rank_list extends CI_Controller{
         $sql = "SELECT `itemnum`,`price`, 
                 sum(if(`created`>=". $last_prior .",`number`,0)) as `curSalesNum`, 
                 sum(if(`created`<". $last_prior .",`number`,0)) as `lastSalesNum` "
-                . "FROM `meta_order` "
+                . "FROM `status_order` "
                 . "WHERE `created`>=". $prior_prior ."  
                 and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%') 
                 and `sellernick` is not NULL";
@@ -222,7 +222,7 @@ class Rank_list extends CI_Controller{
         $data;
         $sql = "SELECT `itemnum`,`price`, 
                 sum(if(`created`<=". $last_last .",`number`,0)) as `salesNum` "
-                . "FROM `meta_order` "
+                . "FROM `status_order` "
                 . "WHERE `created`>=". $last_prior ."  
                 and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%') 
                 and `sellernick` is not NULL";

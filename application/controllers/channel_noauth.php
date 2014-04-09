@@ -6,7 +6,7 @@ class channel_noauth extends CI_Controller{
         $db=$this->rank_database->select_DB($project);
         $this->load->database($db);
         //全网销售额
-        $sql="SELECT DATE(createtime) AS createtime,SUM(price*number) AS order_fee  FROM meta_order  WHERE DATE(createtime) BETWEEN DATE_SUB(CURDATE(),INTERVAL 30 DAY) AND CURDATE()  GROUP BY DATE(createtime)";
+        $sql="SELECT DATE(createtime) AS createtime,SUM(price*number) AS order_fee  FROM status_order  WHERE DATE(createtime) BETWEEN DATE_SUB(CURDATE(),INTERVAL 30 DAY) AND CURDATE()  GROUP BY DATE(createtime)";
         foreach($this->db->query($sql)->result_array() as $value){
             $data['order_fee']['createtime'][]=$value['createtime'];
             $data['order_fee']['order_fee'][]=(float)$value['order_fee'];
@@ -75,7 +75,7 @@ class channel_noauth extends CI_Controller{
         {
             $sql = "select `a`.`sellernick`, `a`.`total`, `status_auth_shop`.`price_range` from
                     (select `sellernick`, sum(`number`) as `total` from
-                    `meta_order` where
+                    `status_order` where
                     `sellernick` in (select `sellernick` from `meta_cooperation` where `status` = '0')
                     and `createtime` between '". $startDate ."' and '". $endDate ."' 
                     and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')
@@ -90,7 +90,7 @@ class channel_noauth extends CI_Controller{
         {
             $sql = "select `a`.`sellernick`, `a`.`total`, `status_auth_shop`.`price_range` from
                     (select `sellernick`, sum(`number`) as `total` from
-                    `meta_order` where
+                    `status_order` where
                     `sellernick` in (select `sellernick` from `meta_cooperation` where `status` = '0')
                     and date(`createtime`) = '". $startDate ."'
                     and not (`status` like '%退款%' or `status` like '%未支付%' or `status` like '%关闭%' or `status` like '%等待付款%')

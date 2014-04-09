@@ -35,13 +35,13 @@ class Rank_database extends CI_Model
     */
     public function select_DB($databaseName)
     {
-        /*
+        
         $db_config['hostname'] = '192.168.1.90';
         $db_config['username'] = 'data';
-        $db_config['password'] = 'data2123';*/
-        $db_config['hostname'] = 'localhost';
+        $db_config['password'] = 'data2123';
+        /*$db_config['hostname'] = 'localhost';
         $db_config['username'] = 'root';
-        $db_config['password'] = 'root';
+        $db_config['password'] = 'root';*/
         $db_config['database'] = $databaseName;
         $db_config['dbdriver'] = 'mysqli';
         $db_config['dbprefix'] = '';

@@ -50,27 +50,20 @@ class Tag extends CI_Controller
     
     public function getList()
     {
-        $dbname=$this->input->post('db', true);
-        $salesNumFrom = $this->input->post('salesNumFrom', true);
-        $salesNumTo = $this->input->post('salesNumTo', true);
-        $rankFrom = $this->input->post('rankFrom', true);
-        $rankTo = $this->input->post('rankTo', true);
-        $descFrom = $this->input->post('descFrom', true);
-        $descTo = $this->input->post('descTo', true);
-        $goodRateFrom = $this->input->post('goodRateFrom', true);
-        $goodRateTo = $this->input->post('goodRateTo', true);       
+        $dbname=$this->input->post('db', true);     
         
         $this->load->model('rank_database');
         //现在使用的是90数据库里面的test库作为测试库
         $etc_privileges = $this->rank_database->select_DB($dbname);
         $this->load->database($etc_privileges);
         
-        $sql = "SELECT `sellernick`, `shop_sales`, `rank`, `mg`, `halfyeargoodrate` FROM `meta_cooperation` WHERE `status`>0";
+        $sql = "SELECT `id`, `sellernick`, `shop_sales`, `rank`, `mg`, `halfyeargoodrate` FROM `meta_cooperation` WHERE `status`>0";
         
         $data;
         $query = $this->db->query($sql);
         foreach ($query->result_array() as $key => $item)
         {
+            $data[$key]->id = $item['id'];
             $data[$key]->sellerNick = $item['sellernick'];
             $data[$key]->shopSales = $item['shop_sales'];
             $data[$key]->rank = $item['rank'];
@@ -78,43 +71,108 @@ class Tag extends CI_Controller
             $data[$key]->halfYearGoodRate = $item['halfyeargoodrate'];
         }
         
-        echo json_encode($data);
-        
-        /*//月销笔数范围选择
-        if($salesNumFrom!="")
-            $sql.=" AND `sales` >= ". $salesNumFrom ."";
-        if($salesNumTo!="")
-            $sql.=" AND `sales` <= ". $salesNumTo ."";
-        
-        //店铺等级
-        if($rankFrom!="")
-        {
-            $rateNumberFrom=  $this->getRankFrom($rankFrom);
-            $sql.=" AND `ratenumber` > ". $rateNumberFrom ."";
-        }                 
-       if($rankTo!="" && $rankTo!=20)
-       {
-            $rateNumberTo=  $this->getRankTo($rankTo);
-            $sql.=" AND `ratenumber` < ". $rateNumberTo ."";
-        }
-        
-        //描述相符高于
-        if($descFrom!="")
-            $sql.=" AND `mg` >= ". $descFrom ."";
-        if($descTo!="")
-            $sql.=" AND `mg` <= ". $descTo ."";
-        
-        //好评/差评比
-        if($goodRateFrom!="")
-            $sql.=" AND `halfyeargoodrate` >= ". $goodRateFrom ."";
-        if($goodRateTo!="")
-            $sql.=" AND `halfyeargoodrate` <= ". $goodRateTo ."";*/
-        
-        
-       
+        echo json_encode($data);       
             
     }
     
+    public function getTag()
+    {
+        $this->load->model('rank_database');
+        //现在使用的是90数据库里面的test库作为测试库
+        $etc_privileges = $this->rank_database->select_DB('test');
+        $this->load->database($etc_privileges);
+        $data=array();
+        
+        $sellerNick = $this->input->get('sellerNick', true);
+        $sql="SELECT `sellernick`,"
+                . "`meta_cooperation_tag`.`tag`"
+                . "FROM `meta_tag` "
+                . "LEFT JOIN `meta_cooperation_tag` "
+                . "ON `meta_tag`.`tag`=`meta_cooperation_tag`.`tag` WHERE `sellernick`='$sellerNick' ";
+        
+        $query = $this->db->query($sql);
+        foreach($query->result_array() as $item)
+        {
+            $data['assignedTags'][] = $item['tag'];
+        }
+        
+        echo json_encode($data);
+    }
+    
+    public function updateTag()
+    {
+        /*
+            INSERT INTO `meta_tag` (`tag`,`type`,`createtime`,`account`,`click`) 
+            VALUES ('培训2','0',now(),'admin','1'),('培训3','0',now(),'abc','1')
+            ON DUPLICATE KEY UPDATE `click`=`click`+1; 
+         *          */
+        $this->load->model('rank_database');
+        //现在使用的是90数据库里面的test库作为测试库
+        $etc_privileges = $this->rank_database->select_DB('test');
+        $this->load->database($etc_privileges);
+        
+        $sellerNick = $this->input->post('sellerNick', true);
+        $tags = $this->input->post('tags', true);
+        
+        // ===========================  获取原有的tag ======================================
+        $sql = "SELECT `tag` FROM `meta_cooperation_tag` WHERE `sellernick`='$sellerNick'";
+        $query=$this->db->query($sql);
+        foreach($query->result_array() as $item)
+        {
+            $sql = "UPDATE `meta_tag` SET `click`=`click`-1 WHERE `tag`='".$item['tag']."'";
+            $this->db->query($sql);
+            $sql = "";
+        }
+        
+        $sql = "DELETE FROM `meta_cooperation_tag` WHERE `sellernick`='$sellerNick'";
+        $query = $this->db->query($sql);
+        
+        //============================   tags非空的情况下更新meta_tag表  ===================================
+        if($tags)
+        {
+            $sql ="INSERT INTO `meta_tag` (`tag`,`type`,`createtime`,`account`,`click`) VALUES ";
+            $dotFlag=true;
+            foreach($tags as $v)
+            {
+                if($dotFlag)
+                {
+                    $sql.= "('$v','0','". date('Y-m-d H:i:s') ."','". $this->session->userdata('username') ."','1')";
+                    $dotFlag = false;
+                }
+                else
+                {
+                    $sql.=",('$v','0','". date('Y-m-d H:i:s') ."','". $this->session->userdata('username') ."','1')";
+                }
+            }
+
+            $sql.= " ON DUPLICATE KEY UPDATE `click`=`click`+1";
+            $this->db->query($sql);
+        }
+        
+               
+        //====================================  tags非空的情况下更新meta_cooperation_tag表  =============================
+        if($tags)
+        {
+            $sql = "INSERT INTO `meta_cooperation_tag` (`createtime`, `sellernick`, `tag`) VALUES ";     
+            $dotFlag=true;
+            foreach($tags as $v)
+            {
+                if($dotFlag)
+                {
+                    $sql.= "('". date('Y-m-d H:i:s') ."','$sellerNick','$v')";
+                    $dotFlag = false;
+                }
+                else
+                {
+                    $sql.= ",('". date('Y-m-d H:i:s') ."','$sellerNick','$v')";
+                }
+            }       
+            $this->db->query($sql);
+        }
+        
+        echo json_encode("true");
+    }
+
     public function getRankTo($rankTo)
     {
         switch ($rankTo)

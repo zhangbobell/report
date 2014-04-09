@@ -45,12 +45,12 @@ class Admin extends CI_Controller
         $n=4;//展示4天的数据
         if($isZC == 'true')
         {
-            $sql = "SELECT `updatetime`, `order_sales_fee_ex` as `sales`, `seller_num_ex` as `seller_num` FROM `kpi_supplier_daily` order by `updatetime` DESC LIMIT ".$n;
+            $sql = "SELECT `updatetime`, `order_sales_fee_ex` as `sales`, `seller_num_ex` as `seller_num` FROM `status_kpi_day` order by `updatetime` DESC LIMIT ".$n;
             
         }
         else
         {
-            $sql = "SELECT `updatetime`, `order_sales_fee` as `sales`, `seller_num` as `seller_num` FROM `kpi_supplier_daily` order by `updatetime` DESC LIMIT ".$n;
+            $sql = "SELECT `updatetime`, `order_sales_fee` as `sales`, `seller_num` as `seller_num` FROM `status_kpi_day` order by `updatetime` DESC LIMIT ".$n;
         }
         
         $query = $this->db->query($sql);

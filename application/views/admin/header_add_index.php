@@ -6,4 +6,4 @@
 <script type="text/javascript" src="<?php echo base_url().PUB_DIR;?>/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript" src="<?php echo base_url().PUB_DIR;?>/bootstrap/js/bootstrap-switch.js"></script>
 <script type="text/javascript" src="<?php echo base_url().JS_DIR;?>/index.js"></script>
-<script src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="<?php echo base_url().JS_DIR;?>/highcharts.js"></script>

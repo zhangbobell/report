@@ -58,10 +58,10 @@ class Channel_auth extends CI_Controller{
         $etc_rule=implode('|',$arr[1]);
         if($zhuicanAll=='all'){
         //授权分销商的销售额(全部)
-        $sql="select date(meta_order.createtime) as createtime, sum(price*meta_order.number) as order_sales_fee_success,meta_order.sellernick,meta_cooperation.account  from meta_order  left join meta_cooperation  on meta_order.sellernick=meta_cooperation.sellernick  where meta_order.status not regexp '$etc_rule' AND date(meta_order.createtime) BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'");
+        $sql="select date(status_order.createtime) as createtime, sum(price*status_order.number) as order_sales_fee_success,status_order.sellernick,meta_cooperation.account  from status_order  left join meta_cooperation  on status_order.sellernick=meta_cooperation.sellernick  where status_order.status not regexp '$etc_rule' AND date(status_order.createtime) BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'");
         $data['order_sales_fee_success']=$this->db->query($sql)->row()->order_sales_fee_success;
         //授权分销商的销售量（全部）
-        $sql="select sum(order_sales_num_success) as order_sales_num_success  from (  select date(meta_order.createtime) as createtime, sum(meta_order.number) as order_sales_num_success,meta_cooperation.account  from meta_order  left join meta_cooperation  on meta_order.sellernick=meta_cooperation.sellernick  where meta_order.status not regexp '$etc_rule'  group by date(meta_order.createtime),account  order by createtime desc  )as temp  where temp.createtime between '$startDate' AND '$endDate'".($operator=='all'?'':" AND account='$operator'");
+        $sql="select sum(order_sales_num_success) as order_sales_num_success  from (  select date(status_order.createtime) as createtime, sum(status_order.number) as order_sales_num_success,meta_cooperation.account  from status_order  left join meta_cooperation  on status_order.sellernick=meta_cooperation.sellernick  where status_order.status not regexp '$etc_rule'  group by date(status_order.createtime),account  order by createtime desc  )as temp  where temp.createtime between '$startDate' AND '$endDate'".($operator=='all'?'':" AND account='$operator'");
         $data['order_sales_num_success']=$this->db->query($sql)->row()->order_sales_num_success;
         //累计授权分销商数量（全部）
         $sql="SELECT   COUNT(sellernick) AS seller_num FROM meta_cooperation WHERE status>'0' AND startdate < '$endDate' ".($operator=='all'?'':" AND account='$operator'");
@@ -73,11 +73,11 @@ class Channel_auth extends CI_Controller{
         echo json_encode($data);
         }elseif($zhuicanAll=='zhuican'){
          //授权分销商的销售额（追灿）
-        $sql="select sum(order_sales_fee_success_ex) as order_sales_fee_success from ( select date(createtime) as createtime,date(updatetime) as updatetime,sum(price*number) as order_sales_fee_success_ex,zhuican.account  from meta_order right join (  select meta_cooperation.sellernick,meta_cooperation.account from meta_cooperation left join up_cooperation_register on meta_cooperation.sellernick=up_cooperation_register.sellernick where up_cooperation_register.sellernick is null )as zhuican on meta_order.sellernick=zhuican.sellernick  where status not regexp '$etc_rule'  group by date(createtime)  order by date(createtime) desc  ) as a  where createtime between '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'");
+        $sql="select sum(order_sales_fee_success_ex) as order_sales_fee_success from ( select date(createtime) as createtime,date(updatetime) as updatetime,sum(price*number) as order_sales_fee_success_ex,zhuican.account  from status_order right join (  select meta_cooperation.sellernick,meta_cooperation.account from meta_cooperation left join up_cooperation_register on meta_cooperation.sellernick=up_cooperation_register.sellernick where up_cooperation_register.sellernick is null )as zhuican on status_order.sellernick=zhuican.sellernick  where status not regexp '$etc_rule'  group by date(createtime)  order by date(createtime) desc  ) as a  where createtime between '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'");
         $query=$this->db->query($sql);
         $data['order_sales_fee_success']=$query->row()->order_sales_fee_success;
         //授权分销商的销售量（追灿）
-        $sql="select sum(order_sales_num_success_ex) as order_sales_num_success from (  select date(createtime) as createtime,date(updatetime) as updatetime,sum(number) as order_sales_num_success_ex,zhuican.account   from meta_order   right join (   select meta_cooperation.sellernick,meta_cooperation.account  from meta_cooperation left join up_cooperation_register  on meta_cooperation.sellernick=up_cooperation_register.sellernick where up_cooperation_register.sellernick is null  )as zhuican  on meta_order.sellernick=zhuican.sellernick  where status not regexp '$etc_rule'  group by date(createtime)  order by date(createtime) desc  ) as a  where createtime between '$startDate' AND '$endDate'".($operator=='all'?'':" AND account='$operator'");
+        $sql="select sum(order_sales_num_success_ex) as order_sales_num_success from (  select date(createtime) as createtime,date(updatetime) as updatetime,sum(number) as order_sales_num_success_ex,zhuican.account   from status_order   right join (   select meta_cooperation.sellernick,meta_cooperation.account  from meta_cooperation left join up_cooperation_register  on meta_cooperation.sellernick=up_cooperation_register.sellernick where up_cooperation_register.sellernick is null  )as zhuican  on status_order.sellernick=zhuican.sellernick  where status not regexp '$etc_rule'  group by date(createtime)  order by date(createtime) desc  ) as a  where createtime between '$startDate' AND '$endDate'".($operator=='all'?'':" AND account='$operator'");
         $query=$this->db->query($sql);
         $data['order_sales_num_success']=$query->row()->order_sales_num_success;
         //累计授权分销商数量（追灿）
@@ -158,11 +158,11 @@ class Channel_auth extends CI_Controller{
         $query=$this->db->query($sql);
         $data['arbitrary_price_rate']=$query->row()->arbitrary_price_rate;
         //动销率（全部）
-         $sql="select(select count(distinct meta_order.sellernick)   from meta_order   inner join meta_cooperation   on meta_order.sellernick=meta_cooperation.sellernick   where meta_order.status not regexp '$etc_rule' AND meta_order.number >0 and meta_order.createtime between '$startDate' AND '$endDate'  ".($operator=='all'?'':" AND meta_cooperation.account='$operator'").")/(SELECT   COUNT(sellernick) AS seller_num FROM meta_cooperation WHERE status>'0' AND startdate < '$endDate' ".($operator=='all'?'':" AND account='$operator'").") AS dynamic_sales_rate";
+         $sql="select(select count(distinct status_order.sellernick)   from status_order   inner join meta_cooperation   on status_order.sellernick=meta_cooperation.sellernick   where status_order.status not regexp '$etc_rule' AND status_order.number >0 and status_order.createtime between '$startDate' AND '$endDate'  ".($operator=='all'?'':" AND meta_cooperation.account='$operator'").")/(SELECT   COUNT(sellernick) AS seller_num FROM meta_cooperation WHERE status>'0' AND startdate < '$endDate' ".($operator=='all'?'':" AND account='$operator'").") AS dynamic_sales_rate";
         $query=$this->db->query($sql);
         $data['dynamic_sales_rate']=$query->row()->dynamic_sales_rate; 
         //订单关闭比率(全部)
-        $sql="select (select count(distinct meta_order.oid) from meta_order inner join meta_cooperation on meta_order.sellernick=meta_cooperation.sellernick where meta_order.number>0 AND meta_order.`status`  regexp '关闭' and meta_order.createtime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'").")/(select count(distinct  meta_order.oid) from meta_order inner join meta_cooperation on meta_order.sellernick=meta_cooperation.sellernick where meta_order.number>0 and meta_order.createtime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'").") AS order_failed_rate";
+        $sql="select (select count(distinct status_order.oid) from status_order inner join meta_cooperation on status_order.sellernick=meta_cooperation.sellernick where status_order.number>0 AND status_order.`status`  regexp '关闭' and status_order.createtime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'").")/(select count(distinct  status_order.oid) from status_order inner join meta_cooperation on status_order.sellernick=meta_cooperation.sellernick where status_order.number>0 and status_order.createtime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'").") AS order_failed_rate";
         $query=$this->db->query($sql);
         $data['order_failed_rate']=$query->row()->order_failed_rate;
         #平均在架商品数(全部)
@@ -184,11 +184,11 @@ class Channel_auth extends CI_Controller{
              $query=$this->db->query($sql);
              $data['arbitrary_price_rate']=$query->row()->arbitrary_price_rate;
              //动销率（追灿）
-             $sql="select (select count(distinct meta_order.sellernick)   from meta_order   inner join meta_cooperation    on meta_order.sellernick=meta_cooperation.sellernick   left join up_cooperation_register   on meta_order.sellernick=up_cooperation_register.sellernick   where up_cooperation_register.sellernick is null and meta_order.status not regexp '$etc_rule'  AND meta_order.number >0 and meta_order.createtime between '$startDate' AND '$endDate'  ".($operator=='all'?'':" AND meta_cooperation.account='$operator'").")/("."SELECT COUNT(meta_cooperation.sellernick)AS seller_num  FROM meta_cooperation LEFT JOIN up_cooperation_register ON meta_cooperation.sellernick= up_cooperation_register.sellernick WHERE status>'0'   AND up_cooperation_register.sellernick IS NULL AND meta_cooperation.startdate < '$endDate'   ".($operator=='all'?'':" AND account='$operator'").") AS dynamic_sales_rate";
+             $sql="select (select count(distinct status_order.sellernick)   from status_order   inner join meta_cooperation    on status_order.sellernick=meta_cooperation.sellernick   left join up_cooperation_register   on status_order.sellernick=up_cooperation_register.sellernick   where up_cooperation_register.sellernick is null and status_order.status not regexp '$etc_rule'  AND status_order.number >0 and status_order.createtime between '$startDate' AND '$endDate'  ".($operator=='all'?'':" AND meta_cooperation.account='$operator'").")/("."SELECT COUNT(meta_cooperation.sellernick)AS seller_num  FROM meta_cooperation LEFT JOIN up_cooperation_register ON meta_cooperation.sellernick= up_cooperation_register.sellernick WHERE status>'0'   AND up_cooperation_register.sellernick IS NULL AND meta_cooperation.startdate < '$endDate'   ".($operator=='all'?'':" AND account='$operator'").") AS dynamic_sales_rate";
              $query=$this->db->query($sql);
              $data['dynamic_sales_rate']=$query->row()->dynamic_sales_rate; 
              //订单关闭比率（追灿）
-             $sql="select (select count(distinct meta_order.oid) from meta_order inner join meta_cooperation on meta_order.sellernick=meta_cooperation.sellernick left join up_cooperation_register on meta_order.sellernick=up_cooperation_register.sellernick where up_cooperation_register.sellernick is null and  meta_order.number>0 AND meta_order.`status`  regexp '退款|未支付|关闭|等待付款' and meta_order.createtime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'").")/(select count(distinct  meta_order.oid) from meta_order inner join meta_cooperation on meta_order.sellernick=meta_cooperation.sellernick left join up_cooperation_register on meta_order.sellernick=up_cooperation_register.sellernick where up_cooperation_register.sellernick is null and  meta_order.number>0 and meta_order.createtime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'").") AS order_failed_rate";
+             $sql="select (select count(distinct status_order.oid) from status_order inner join meta_cooperation on status_order.sellernick=meta_cooperation.sellernick left join up_cooperation_register on status_order.sellernick=up_cooperation_register.sellernick where up_cooperation_register.sellernick is null and  status_order.number>0 AND status_order.`status`  regexp '退款|未支付|关闭|等待付款' and status_order.createtime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'").")/(select count(distinct  status_order.oid) from status_order inner join meta_cooperation on status_order.sellernick=meta_cooperation.sellernick left join up_cooperation_register on status_order.sellernick=up_cooperation_register.sellernick where up_cooperation_register.sellernick is null and  status_order.number>0 and status_order.createtime BETWEEN '$startDate' AND '$endDate' ".($operator=='all'?'':" AND account='$operator'").") AS order_failed_rate";
              $query=$this->db->query($sql);
              $data['order_failed_rate']=$query->row()->order_failed_rate;
              //平均在架商品数（追灿）
@@ -224,7 +224,7 @@ class Channel_auth extends CI_Controller{
         $data=NULL;
         if($zhuicanAll=='all'){
         //销售额，销售量（全部）
-        $sql="SELECT createtime,SUM(order_fee) AS order_fee , SUM(order_num) AS order_num FROM(      SELECT DATE(meta_order.createtime) AS createtime,(meta_order.price*meta_order.number) AS order_fee,meta_order.number AS order_num,meta_order.sellernick,meta_cooperation.account      FROM meta_order      INNER JOIN meta_cooperation      ON meta_order.sellernick=meta_cooperation.sellernick      ORDER BY createtime DESC  ) AS temp  WHERE createtime BETWEEN '$startDate' AND '$endDate'  GROUP BY createtime".($operator=='all'?'':" AND account='$operator'");
+        $sql="SELECT createtime,SUM(order_fee) AS order_fee , SUM(order_num) AS order_num FROM(      SELECT DATE(status_order.createtime) AS createtime,(status_order.price*status_order.number) AS order_fee,status_order.number AS order_num,status_order.sellernick,meta_cooperation.account      FROM status_order      INNER JOIN meta_cooperation      ON status_order.sellernick=meta_cooperation.sellernick      ORDER BY createtime DESC  ) AS temp  WHERE createtime BETWEEN '$startDate' AND '$endDate'  GROUP BY createtime".($operator=='all'?'':" AND account='$operator'");
         $result=$this->db->query($sql)->result_array();
         if(!empty($result)){
         foreach($result as $value){
@@ -242,7 +242,7 @@ class Channel_auth extends CI_Controller{
         echo json_encode($data);
         }else{
          //销售额，销售量（追灿）
-        $sql="SELECT createtime,SUM(order_fee) AS order_fee , SUM(order_num) AS order_num FROM(      SELECT DATE(meta_order.createtime) AS createtime,(meta_order.price*meta_order.number) AS order_fee,meta_order.number AS order_num,meta_order.sellernick,meta_cooperation.account      FROM meta_order      INNER JOIN meta_cooperation      ON meta_order.sellernick=meta_cooperation.sellernick  WHERE  meta_order.sellernick not in(select sellernick from up_cooperation_register)    ORDER BY createtime DESC  ) AS temp  WHERE createtime BETWEEN '$startDate' AND '$endDate'  GROUP BY createtime".($operator=='all'?'':" AND account='$operator'");
+        $sql="SELECT createtime,SUM(order_fee) AS order_fee , SUM(order_num) AS order_num FROM(      SELECT DATE(status_order.createtime) AS createtime,(status_order.price*status_order.number) AS order_fee,status_order.number AS order_num,status_order.sellernick,meta_cooperation.account      FROM status_order      INNER JOIN meta_cooperation      ON status_order.sellernick=meta_cooperation.sellernick  WHERE  status_order.sellernick not in(select sellernick from up_cooperation_register)    ORDER BY createtime DESC  ) AS temp  WHERE createtime BETWEEN '$startDate' AND '$endDate'  GROUP BY createtime".($operator=='all'?'':" AND account='$operator'");
         $result=$this->db->query($sql)->result_array();
         if(!empty($result)){
         foreach($result as $value){
@@ -265,12 +265,12 @@ class Channel_auth extends CI_Controller{
         $n=4;//展示4天的数据
         if($zhuicanAll!='all')
         {
-            $sql = "SELECT `updatetime`, `order_sales_fee_ex` as `sales`, `order_sales_num_ex` as `sales_num`, `seller_num_ex` as `seller_num` FROM `kpi_supplier_daily` WHERE `updatetime` between '". $startDate ."' and '". $endDate ."' order by `updatetime`";
+            $sql = "SELECT `updatetime`, `order_sales_fee_ex` as `sales`, `order_sales_num_ex` as `sales_num`, `seller_num_ex` as `seller_num` FROM `status_kpi_day` WHERE `updatetime` between '". $startDate ."' and '". $endDate ."' order by `updatetime`";
             
         }
         else
         {
-            $sql = "SELECT `updatetime`, `order_sales_fee` as `sales`, `order_sales_num` as `sales_num`, `seller_num` as `seller_num` FROM `kpi_supplier_daily` WHERE `updatetime` between '". $startDate ."' and '". $endDate ."' order by `updatetime`";
+            $sql = "SELECT `updatetime`, `order_sales_fee` as `sales`, `order_sales_num` as `sales_num`, `seller_num` as `seller_num` FROM `status_kpi_day` WHERE `updatetime` between '". $startDate ."' and '". $endDate ."' order by `updatetime`";
         }
         $query = $this->db->query($sql);
         foreach($query->result_array() as $value){
