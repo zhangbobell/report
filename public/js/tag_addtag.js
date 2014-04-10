@@ -276,9 +276,9 @@ function pageselectCallback(page_index, jq){
    {
         var sellerNick = filterData[i]['sellerNick'];
         $("#seller"+ filterData[i]['id']).tagHandler({
-        getData: { sellerNick: filterData[i]['sellerNick'] },
+        getData: { sellerNick: filterData[i]['sellerNick'],db:$("#db-select").val() },
         getURL: 'tag/getTag',
-        updateData: { sellerNick: filterData[i]['sellerNick'] },
+        updateData: { sellerNick: filterData[i]['sellerNick'],db:$("#db-select").val() },
         updateURL: 'tag/updateTag',
         autocomplete: true,
         autoUpdate: true

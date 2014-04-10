@@ -79,11 +79,13 @@ class Tag extends CI_Controller
     {
         $this->load->model('rank_database');
         //现在使用的是90数据库里面的test库作为测试库
-        $etc_privileges = $this->rank_database->select_DB('test');
+        $sellerNick = $this->input->get('sellerNick', true);
+        $db = $this->input->get('db', true);
+        $etc_privileges = $this->rank_database->select_DB($db);
         $this->load->database($etc_privileges);
         $data=array();
         
-        $sellerNick = $this->input->get('sellerNick', true);
+        
         $sql="SELECT `sellernick`,"
                 . "`meta_cooperation_tag`.`tag`"
                 . "FROM `meta_tag` "
@@ -106,14 +108,14 @@ class Tag extends CI_Controller
             VALUES ('培训2','0',now(),'admin','1'),('培训3','0',now(),'abc','1')
             ON DUPLICATE KEY UPDATE `click`=`click`+1; 
          *          */
-        $this->load->model('rank_database');
-        //现在使用的是90数据库里面的test库作为测试库
-        $etc_privileges = $this->rank_database->select_DB('test');
-        $this->load->database($etc_privileges);
-        
         $sellerNick = $this->input->post('sellerNick', true);
         $tags = $this->input->post('tags', true);
-        
+        $db = $this->input->post('db', true);
+        $this->load->model('rank_database');
+        //现在使用的是90数据库里面的test库作为测试库
+        $etc_privileges = $this->rank_database->select_DB($db);
+        $this->load->database($etc_privileges);
+             
         // ===========================  获取原有的tag ======================================
         $sql = "SELECT `tag` FROM `meta_cooperation_tag` WHERE `sellernick`='$sellerNick'";
         $query=$this->db->query($sql);
