@@ -1,0 +1,24 @@
+/* 
+    Created on : 2014-4-9, 11:40:48
+    Author     : ibm
+*/
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.x.axis path {
+  display: none;
+}
+
+#stackedBarChart
+{
+    font: 10px sans-serif;
+}
