@@ -5,6 +5,7 @@
     <?php endforeach;?>
 </select>
 <div id="filter" class="mt10">
+    <div class="mb10 pl20">旺旺名称<input id="wwName" class="filterInput"></div>
     <div class="subFilter">月销/笔<input id="shopSalesNumFrom" class="filterInput">-<input id="shopSalesNumTo" class="filterInput"></div>
     <div class="subFilter">等级<input id="rankFrom" class="filterInput">-<input id="rankTo" class="filterInput"></div>
     <div class="subFilter">描述相符高于<input id="mgFrom" class="filterInput">%-<input id="mgTo" class="filterInput">%</div>

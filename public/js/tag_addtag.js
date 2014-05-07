@@ -145,6 +145,7 @@ function filter()
     var mgTo = parseInt($("#mgTo").val().trim());
     var halfYearGoodRateFrom = parseInt($("#halfYearGoodRateFrom").val().trim());
     var halfYearGoodRateTo = parseInt($("#halfYearGoodRateTo").val().trim());
+    var wwName=$("#wwName").val().trim();
 
     filterData.splice(0,filterData.length); 
     
@@ -167,6 +168,8 @@ function filter()
         if(halfYearGoodRateFrom!="" && jsonData[i]['halfYearGoodRate']<halfYearGoodRateFrom)
             continue;
         if(halfYearGoodRateTo!="" && jsonData[i]['halfYearGoodRate']>halfYearGoodRateTo)
+            continue;
+        if(wwName!="" && jsonData[i]['sellerNick']!=wwName)
             continue;
 
         filterData.push(jsonData[i]);

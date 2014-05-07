@@ -4,10 +4,7 @@ $(document).ready(function(){
     //$('#t1').css('background-color','#ccc');
     get_data();
     
-    
     $(".switch").bootstrapSwitch();
-    
-   
         
     //选择项目
     $('#db-select').change(function(){

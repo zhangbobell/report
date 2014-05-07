@@ -105,7 +105,6 @@ class Admin extends CI_Controller
             $i++;
         }
         
-        //echo json_encode($data);
         echo json_encode($data, JSON_NUMERIC_CHECK );
     }
     

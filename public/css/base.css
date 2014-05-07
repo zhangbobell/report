@@ -336,7 +336,7 @@ a.ico:hover
     border-bottom-color: #999;
     border-bottom-width: 1px;
     padding-bottom: 5px;
-    height: 30px;
+    height: 60px;
     padding: 3px 10px;
     
 }
@@ -347,4 +347,8 @@ a.ico:hover
     margin:0px;
     float: left;
     padding: 0px 20px;
+}
+#wwName
+{
+    width: 95px;
 }
