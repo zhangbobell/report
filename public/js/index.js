@@ -192,8 +192,7 @@ $(document).ready(function(){
                     $('#rank').html("<h2>&nbsp;&nbsp;&nbsp;&nbsp;没有找到符合条件的数据</h2>");
             }
              
-	  });//ajax函数结束
-          
+	  });//ajax结束
+   
          
-}
-        
+  }
