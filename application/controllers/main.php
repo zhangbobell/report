@@ -12,6 +12,7 @@
             
             $this->load->helper('captcha');
             $this->load->library('session');
+            
         }
 
 
@@ -112,7 +113,7 @@
                 $this->session->set_userdata($userdata);
                 
                 //存入登录日志rep_log
-                $sql="INSERT INTO `rep_log` (`createtime`, `username`, `title`, `content`) "
+                /*$sql="INSERT INTO `rep_log` (`createtime`, `username`, `title`, `content`) "
                         . "VALUES ('". date("Y-m-d H:i:s") ."', "
                         . "'". $this->session->userdata('username') ."',"
                         . "'login',"
@@ -120,7 +121,7 @@
                 if(!($query = $this->db->query($sql)))
                 {
                         $this->db->_error_message();
-                }
+                }*/
             }
         }
         

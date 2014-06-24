@@ -48,9 +48,9 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = '192.168.1.90';
-$db['default']['username'] = 'data';
-$db['default']['password'] = 'data2123';
+$db['default']['hostname'] = 'localhost';
+$db['default']['username'] = 'root';
+$db['default']['password'] = 'root';
 $db['default']['database'] = 'db_sanqiang';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
@@ -65,9 +65,9 @@ $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
 //数据仓库管理库
-$etc_privileges['hostname'] = '192.168.1.90';
-$etc_privileges['username'] = 'data';
-$etc_privileges['password'] = 'data2123';
+$etc_privileges['hostname'] = '127.0.0.1';
+$etc_privileges['username'] = 'root';
+$etc_privileges['password'] = 'root';
 $etc_privileges['database'] = 'etc_privileges';
 $etc_privileges['dbdriver'] = 'mysql';
 $etc_privileges['dbprefix'] = '';
@@ -100,8 +100,8 @@ $test['autoinit'] = TRUE;
 $test['stricton'] = FALSE;
 
 $db['etc_privileges']['hostname'] = '127.0.0.1';
-$db['etc_privileges']['username'] = 'webuser';
-$db['etc_privileges']['password'] = 'password';
+$db['etc_privileges']['username'] = 'root';
+$db['etc_privileges']['password'] = 'root';
 $db['etc_privileges']['database'] = 'etc_privileges';
 $db['etc_privileges']['dbdriver'] = 'mysql';
 $db['etc_privileges']['dbprefix'] = '';
